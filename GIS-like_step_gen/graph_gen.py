@@ -9,7 +9,7 @@ def generate_graph(pipe, task, data_locations_str):
     # model_name = "teknium/OpenHermes-2.5-Mistral-7B"
     # model_name = "mistralai/Mistral-7B-Instruct-v0.2"
 
-    # pipe = pipeline("text-generation", model=model_name, torch_dtype=torch.bfloat16, device_map="auto", token="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")
+    # pipe = pipeline("text-generation", model=model_name, torch_dtype=torch.bfloat16, device_map="auto", token="hf_XXXXXX")
 
     data = '\n'.join([f"{idx + 1}. {line}" for idx, line in enumerate(data_locations_str)])
 
