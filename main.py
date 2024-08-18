@@ -142,7 +142,7 @@ for model in models:
     model_name = models[model]
     kode = model
     # input(f"next model?, {kode}")
-    pipe = pipeline("text-generation", model=model_name, torch_dtype=torch.bfloat16, device_map="auto", token="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")
+    pipe = pipeline("text-generation", model=model_name, torch_dtype=torch.bfloat16, device_map="auto", token="hf_XXXXXXXX")
 
     invalid_output = True
     temp_messages = messages
