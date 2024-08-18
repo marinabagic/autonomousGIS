@@ -1,0 +1,18 @@
+import pandas as pd
+from scipy.stats import chi2_contingency
+
+# Load the dataset
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Create a contingency table for LC0_Desc and pH_H2O
+contingency_table = pd.crosstab(df['LC0_Desc'], df['pH_H2O'])
+
+# Perform the chi-square test
+chi2, p, _, _ = chi2_contingency(contingency_table)
+
+# Print the results
+print("Chi2:", chi2)
+print("P-value:", p)
+
+# Chi2: 13418.924895244883
+# P-value: 0.0

@@ -1,0 +1,21 @@
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+model = df.set_index('POINTID').filter(['pH_H2O', 'K']).values
+X = model[:, 0].reshape(-1, 1)
+y = model[:, 1]
+
+regression = pd.Polynomials.OLS(X, y, degree=1).fit()
+
+sns.lmplot(x='pH_H2O', y='K', data=df, hue='LC')
+plt.scatter(df['pH_H2O'], df['K'])
+plt.plot(df['pH_H2O], regression.predict(X), color='red')
+plt.xlabel('pH_H2O')
+plt.ylabel('K')
+plt.title('Linear Regression Analysis: pH_H2O vs K')
+plt.savefig('regression_pH_H2O_vs_K.png')
+print(regression.params)

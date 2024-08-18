@@ -1,0 +1,20 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load the GeoDataFrame
+gdf = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Load the Europe shapefile
+europe_gdf = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Plot the Europe shapefile
+europe_gdf.plot(color='lightblue', edgecolor='black', figsize=(10,10))
+
+# Create a new figure and axis
+fig, ax = plt.subplots(figsize=(10,10))
+
+# Plot the points from the GeoDataFrame
+gdf.plot(x='POINTID', y='pH_CaCl2', marker='.', ax=ax)
+
+# Save the plot as a PNG
+plt.savefig('heatmap.png')

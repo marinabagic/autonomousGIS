@@ -1,0 +1,27 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load Europe shapefile
+eu_shapefile = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Load GeoDataFrame
+geo_df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Ensure pH_H2O column is loaded and is of numeric type
+geo_df = geo_df.astype({'pH_H2O': float})
+
+# Filter points with pH_H2O in top 10 percentile
+top_10_percentile = geo_df.quantile(0.9)['pH_H2O']
+filtered_points = geo_df[geo_df['pH_H2O'] > top_10_percentile]
+
+# Perform spatial join between Europe shapefile and filtered points
+result = gpd.sjoin(eu_shapefile, filtered_points, how='intersects')
+
+# Plot Europe shapefile
+ax = eu_shapefile.plot(figsize=(10,10), edgecolor='black')
+
+# Plot markers for filtered points that intersect Europe shapefile
+result.plot(ax=ax, x='x', y='y', markersize=5, marker='.', color='red')
+
+# Save plot as png
+plt.savefig('map.png')

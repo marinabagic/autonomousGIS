@@ -1,0 +1,25 @@
+import geopandas as gpd
+
+# Load Europe shapefile
+eu_shapefile = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Load GeoDataFrame
+geo_dataframe = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Filter points with LC0_Desc = 'Woodland'
+woodland_points = geo_dataframe[geo_dataframe['LC0_Desc'] == 'Woodland']
+
+# Merge Europe shapefile with the filtered points
+result = eu_shapefile.sjoin(woodland_points, op='intersects')
+
+# Set marker and figsize for plotting
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10, 10))
+plt.scatter(result.geometry.x, result.geometry.y, marker='.', alpha=0.5)
+plt.xlabel('Longitude')
+plt.ylabel('Latitude')
+plt.title('Woodland points in Europe')
+plt.savefig('plot.png')
+
+# Print the result DataFrame
+print(result)

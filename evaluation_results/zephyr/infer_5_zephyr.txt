@@ -1,0 +1,13 @@
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+model = LinearRegression().fit(df[['pH_H2O']], df['K'])
+plt.scatter(df['pH_H2O'], df['K'])
+plt.plot(df['pH_H2O'], model.predict(df[['pH_H2O']]))
+plt.savefig('plot.png')
+print(model.coef_)
+print(model.intercept_)
+print(model.score(df[['pH_H2O', 'K']]))

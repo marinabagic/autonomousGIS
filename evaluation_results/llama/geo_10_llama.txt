@@ -1,0 +1,11 @@
+
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+df_plot = df[(df.LC0_Desc == 'Grassland') | (df.LC0_Desc == 'Woodland')][df.OC > 20]
+df_plot.plot(markersize=5, marker='.', figsize=(10,10))
+plt.gca().set_title('Grassland and Woodland points with OC > 20')
+plt.savefig('plot.png')

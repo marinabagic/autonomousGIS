@@ -1,0 +1,21 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+
+# load the csv file
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# filter rows where 'EC' is greater than 10
+filtered_df = df[df['EC'] > 10]
+
+# calculate the average 'K' for the filtered rows
+avg_k = filtered_df['K'].mean()
+
+# print the result
+print(avg_k)
+
+
+------------------REZULTAT!!!------------------
+
+251.37874575467976

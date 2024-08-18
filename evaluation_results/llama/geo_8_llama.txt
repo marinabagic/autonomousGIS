@@ -1,0 +1,25 @@
+
+import pandas as pd
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load the GeoDataFrame
+df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Load the Europe shapefile
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Filter the data
+df_filtered = df[df['pH_H2O'] > 5]
+df_filtered_blue = df_filtered[df['pH_H2O'] > 5]
+df_filtered_red = df[df['pH_H2O'] < 5]
+
+# Plot the Europe shapefile
+europe.plot(color='white', edgecolor='black', figsize=(10,10))
+
+# Plot the points
+df_filtered_blue.plot(kind='scatter', x='TH_LONG', y='TH_LAT', c='blue', marker='.', figsize=(10,10))
+df_filtered_red.plot(kind='scatter', x='TH_LONG', y='TH_LAT', c='red', marker='.', figsize=(10,10))
+
+# Save the plot as a png
+plt.savefig('plot.png')

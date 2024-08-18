@@ -1,0 +1,27 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load the GeoDataFrame
+gdf = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Load the Europe shapefile
+europe_gdf = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Plot the Europe shapefile
+europe_gdf.plot(figsize=(10,10), marker='.', color='lightblue', edgecolor='black')
+
+# Filter the GeoDataFrame to only include rows where 'K' is above its median value
+gdf_median = gdf['K'].median()
+gdf_filtered = gdf[gdf['K'] > gdf_median]
+
+# Plot the filtered GeoDataFrame with markers
+gdf_filtered.plot(figsize=(10,10), marker='.', color='red', markersize=5)
+
+# Save the plot as a PNG
+plt.savefig('plot.png')
+
+
+------------------REZULTAT!!!------------------

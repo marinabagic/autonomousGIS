@@ -1,0 +1,14 @@
+
+import pandas as pd
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+mean_oc = df['OC'].mean()
+std_dev_oc = df['OC'].std()
+
+margin_of_error = 1.96 * (std_dev_oc / df['OC'].count()) ** 0.5
+
+lower_bound = mean_oc - margin_of_error
+upper_bound = mean_oc + margin_of_error
+
+print(f'95% confidence interval for the mean "OC" content: ({lower_bound:.2f}, {upper_bound:.2f})')

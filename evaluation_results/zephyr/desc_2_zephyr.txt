@@ -1,0 +1,8 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+lc0_desc = df['LC0_Desc'].unique()
+grouped = df.groupby('LC0_Desc')['OC'].mean()
+grouped.plot.bar()
+plt.savefig('oc_by_land_type.png')

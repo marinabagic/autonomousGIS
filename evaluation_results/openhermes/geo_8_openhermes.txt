@@ -1,0 +1,26 @@
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the GeoDataFrame
+geo_df = pd.read_shapefile('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Load the Europe shapefile
+europe_df = pd.read_shapefile('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Filter the GeoDataFrame based on 'pH_H2O' values
+blue_points = geo_df[geo_df['pH_H2O'] > 5]
+red_points = geo_df[geo_df['pH_H2O'] < 5]
+
+# Merge the filtered GeoDataFrame with the Europe shapefile
+merged_df = blue_points.merge(europe_df, how='outer', on=['geometry'])
+
+# Plot the merged DataFrame
+fig, ax = plt.subplots(figsize=(10, 10))
+merged_df.plot(column='geometry', marker='.', ax=ax, color='blue')
+
+# Save the plot as a PNG file
+plt.savefig('plot.png')
+
+# Show the plot
+plt.show()

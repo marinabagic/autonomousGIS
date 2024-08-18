@@ -1,0 +1,19 @@
+
+import pandas as pd
+import numpy as np
+from scipy.stats import ttest_ind
+
+# Load the CSV file
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Convert 'K' column to numeric
+df['K'] = pd.to_numeric(df['K'])
+
+# Calculate the mean 'K' content in the entire dataset
+mean_k = df['K'].mean()
+
+# Perform a t-test to determine if the mean 'K' content is significantly different from 2%
+t_stat, p_val = ttest_ind(df['K'], [2], equal_var=False)
+
+# Print the result
+print("The p-value for the t-test is:", p_val)

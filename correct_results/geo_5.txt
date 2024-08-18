@@ -1,0 +1,14 @@
+import geopandas as gpd
+import pandas as pd
+import matplotlib.pyplot as plt
+
+geo_df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+europe_df = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+median_k = geo_df['K'].median()
+locations = geo_df[geo_df['K'] > median_k]
+
+fig, ax = plt.subplots(figsize=(10, 10))
+europe_df.plot(ax=ax, color='gray')
+locations.plot(ax=ax, marker='.', color='red')
+plt.savefig('plot.png')

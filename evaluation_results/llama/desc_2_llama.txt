@@ -1,0 +1,12 @@
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+avg_OC = data.groupby('LC0_Desc')['OC'].mean().reset_index()
+plt.bar(avg_OC['LC0_Desc'], avg_OC['OC'])
+plt.xlabel('Land Type')
+plt.ylabel('Average OC')
+plt.title('Average OC for each Land Type')
+plt.savefig('plot.png')

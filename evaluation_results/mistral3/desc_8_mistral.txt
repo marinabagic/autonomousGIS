@@ -1,0 +1,16 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+k = df['K']
+
+sns.kdeplot(k, shade=True)
+plt.savefig('kde_k_distribution.png')
+plt.show()
+
+
+------------------REZULTAT!!!------------------

@@ -1,0 +1,25 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+def load_shapefile(shapefile_path):
+    return gpd.read_file(shapefile_path)
+
+def add_marker(shapefile, column, percentile):
+    top_10_percentile = shapefile[column].quantile(percentile)
+    shapefile.loc[shapefile[column] >= top_10_percentile,'marker'] = True
+    # shapefile.loc[shapefile[column] < top_10_percentile,'marker'] = False
+    return shapefile
+
+def plot_map(shapefile):
+    shapefile.plot(column='marker', legend=True, marker='o', markersize=10)
+    plt.savefig('map.png')
+
+def main():
+    shapefile_path = '/home/fkriskov/diplomski/datasets/geo_dataframe.shp'
+    shapefile = load_shapefile(shapefile_path)
+    # shapefile = filter_europe(shapefile)
+    shapefile = add_marker(shapefile, 'K', 0.9)
+    plot_map(shapefile)
+
+if __name__ == '__main__':
+    main()

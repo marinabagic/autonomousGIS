@@ -1,0 +1,13 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+geo_dataframe = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+europe_shapefile = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+filtered_geo_dataframe = geo_dataframe[(geo_dataframe['LC0_Desc'] == 'Grassland') | (geo_dataframe['LC0_Desc'] == 'Woodland')]
+filtered_geo_dataframe = filtered_geo_dataframe[filtered_geo_dataframe['OC'] > 20]
+
+fig, ax = plt.subplots(figsize=(10, 10))
+europe_shapefile.plot(ax=ax, color='gray')
+filtered_geo_dataframe.plot(ax=ax, marker='.', color='red')
+plt.savefig('plot.png')

@@ -1,0 +1,13 @@
+
+import pandas as pd
+import scipy.stats as stats
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+zscore_ec = stats.zscore(df['EC'].values, nan_policy='omit')
+
+df['zscore_EC'] = zscore_ec
+
+outliers_ec = df[(df['zscore_EC'] > 3) | (df['zscore_EC'] < -3)]
+
+print(outliers_ec)

@@ -1,0 +1,25 @@
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the CSV file
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Filter the dataframe to only include rows where 'pH_H2O' and 'K' are not missing
+df = df.dropna(subset=['pH_H2O', 'K'])
+
+# Create a linear regression model
+model = pd.OLS(df['pH_H2O'], df['K'])
+
+# Fit the model to the data
+results = model.fit()
+
+# Print the coefficients of the model
+print(results.params)
+
+# Plot the regression line
+plt.scatter(df['K'], df['pH_H2O'])
+plt.xlabel('K')
+plt.ylabel('pH_H2O')
+plt.title('Linear Regression Analysis of pH_H2O and K')
+plt.show()

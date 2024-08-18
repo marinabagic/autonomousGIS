@@ -1,0 +1,27 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load Europe shapefile
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Load GeoDataFrame
+gdf = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Calculate top 10 percentile of 'pH_H2O'
+top_pH = gdf['pH_H2O'].quantile(0.9)
+
+# Filter points where 'pH_H2O' is in the top 10 percentile
+top_points = gdf[gdf['pH_H2O'] > top_pH]
+
+# Plot Europe shapefile with markers for top points
+fig, ax = plt.subplots(figsize=(10,10))
+top_points_plot.plot(ax=ax, color='none', marker='.', markersize=50)
+europe.plot(ax=ax, color='none')
+plt.title('Top 10 percentile of pH_H2O in Europe')
+plt.savefig('top_pH_map.png')
+
+
+------------------REZULTAT!!!------------------

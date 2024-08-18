@@ -1,0 +1,15 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+def linear_regression_plot(df, x, y):
+    plt.scatter(df[x], df[y])
+    m, b = np.polyfit(df[x], df[y], 1)
+    plt.plot(df[x], m*df[x] + b, color='red')
+    plt.xlabel(x)
+    plt.ylabel(y)
+    plt.title(f'Linear Regression Analysis of {x} and {y}')
+    plt.savefig('plot.png')
+
+linear_regression_plot(df,'pH_H2O', 'K')

@@ -1,0 +1,35 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+import geopandas as gpd
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+
+# Load the GeoDataFrame
+gdf = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Load the Europe shapefile
+europe_gdf = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Select the TH_LAT and TH_LONG columns from the GeoDataFrame
+th_data = gdf[['TH_LAT', 'TH_LONG']]
+
+# Perform KMeans clustering on the TH_LAT and TH_LONG data
+kmeans = KMeans(n_clusters=3)
+kmeans.fit(th_data)
+
+# Create a new column in the GeoDataFrame with the cluster labels
+gdf['cluster'] = kmeans.labels_
+
+# Plot the Europe shapefile
+europe_gdf.plot(color='white', edgecolor='black', figsize=(10,10))
+
+# Plot the GeoDataFrame with the cluster labels
+gdf.plot(column='cluster', marker='.', figsize=(10,10), legend=True)
+
+# Save the plot as a PNG
+plt.savefig('plot.png')
+
+
+------------------REZULTAT!!!------------------

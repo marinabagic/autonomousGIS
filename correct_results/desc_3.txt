@@ -1,0 +1,7 @@
+import pandas as pd
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+south_eu = ['PT', 'ES', 'IT', 'GR', 'MT', 'HR', 'SI', 'CY']
+south_eu_df = df[df['NUTS_0'].isin(south_eu)]
+avg_ph = south_eu_df['pH_H2O'].mean()
+print(avg_ph)

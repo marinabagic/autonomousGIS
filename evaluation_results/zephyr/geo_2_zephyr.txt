@@ -1,0 +1,32 @@
+import geopandas as gpd
+from shapely.geometry import Point
+
+# Load the Europe shapefile
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Load the GeoDataFrame with LC0_Desc=Woodland
+woodland = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')[woodland['LC0_Desc'] == 'Woodland']
+
+# Convert the GeoSeries to a list of Point objects
+points = [Point(xy) for _, row in woodland.iterrows() for xy in row.geometry.coords.values]
+
+# Merge the points with the Europe shapefile
+merged = gpd.GeoDataFrame(crs='EPSG:4326')
+merged['geometry'] = gpd.GeoSeries(points)
+merged = merged.set_crs('EPSG:4326').to_crs(europe.crs)
+merged = merged.sjoin(europe, how='inner', op='within')
+
+# Plot the merged shapefile
+merged.plot()
+
+# Save the plot as a png
+merged.plot(figsize=(10,10), marker='.')
+merged.plot(figsize=(10,10), marker='.')
+merged.plot(figsize=(10,10), marker='.')
+merged.plot(figsize=(10,10), marker='.')
+merged.plot(figsize=(10,10), marker='.')
+merged.plot(figsize=(10,10), marker='.')
+merged.plot(figsize=(10,10), marker='.')
+merged.plot(figsize=(10,10), marker='.')
+merged.plot(figsize=(10,10), marker='.')
+merged.plot(figsize=(10,

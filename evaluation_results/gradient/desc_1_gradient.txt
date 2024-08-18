@@ -1,0 +1,17 @@
+
+import pandas as pd
+
+# load the csv file
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# filter the dataframe to only include rows where 'pH_H2O' is not null
+df = df[df['pH_H2O'].notnull()]
+
+# group the dataframe by 'LC0_Desc' and calculate the average 'pH_H2O' for each group
+grouped_df = df.groupby('LC0_Desc')['pH_H2O'].mean()
+
+# get the index of the group with the highest average 'pH_H2O'
+highest_avg_lc = grouped_df.idxmax()
+
+# print the land type with the highest average 'pH_H2O'
+print(highest_avg_lc)

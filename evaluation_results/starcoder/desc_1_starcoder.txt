@@ -1,0 +1,23 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+grouped = df.groupby('LC0_Desc')['pH_H2O'].mean()
+sorted_grouped = grouped.sort_values(ascending=False)
+land_type = sorted_grouped.index[0]
+print(f"Land type with highest 'pH_H2O': {land_type}")
+
+
+------------------REZULTAT!!!------------------
+
+
+Running Double Check...
+
+
+No changes neccessary.
+
+
+Running Code...
+
+Land type with highest 'pH_H2O': Water

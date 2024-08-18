@@ -1,0 +1,30 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import geopandas as gpd
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+
+# load the shapefiles
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+data = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# extract TH_LAT and TH_LONG data
+th_data = data[['TH_LAT', 'TH_LONG']]
+
+# perform KMeans clustering
+kmeans = KMeans(n_clusters=3).fit(th_data)
+
+# add cluster labels to the data
+data['cluster'] = kmeans.labels_
+
+# plot the clusters on a map
+fig, ax = plt.subplots(figsize=(10,10))
+data.plot(ax=ax, color='white', edgecolor='black')
+europe.plot(ax=ax, color='none', edgecolor='black')
+plt.scatter(th_data['TH_LONG'], th_data['TH_LAT'], c=kmeans.labels_, cmap='viridis')
+plt.title('KMeans Clustering on TH_LAT and TH_LONG')
+plt.savefig('kmeans_clusters.png')
+
+
+------------------REZULTAT!!!------------------

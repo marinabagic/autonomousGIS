@@ -1,0 +1,30 @@
+
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import scipy.stats as stats
+import matplotlib.pyplot as plt
+
+# Load data
+df = pd.read_csv("/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv")
+
+# Extract 'pH_H2O' column
+data = df['pH_H2O'].values
+
+# Simulate sampling distribution of mean using Central Limit Theorem
+mean = np.mean(data)
+std_dev = np.std(data, ddof=1)
+sample_size = 30
+x = np.linspace(mean - 3 * std_dev, mean + 3 * std_dev, 1000)
+sampling_distribution = stats.norm.pdf(x, mean, std_dev / np.sqrt(sample_size))
+
+# Plot sampling distribution and normal distribution
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.plot(x, sampling_distribution, label="Sampling Distribution")
+ax.plot(x, stats.norm.pdf(x), label="Normal Distribution")
+ax.set_xlabel("pH_H2O")
+ax.set_ylabel("Density")
+ax.legend()
+ax.set_title("Comparison of Sampling Distribution and Normal Distribution for 'pH_H2O' with Sample Size of 30")
+plt.savefig("distribution.png")
+print(sampling_distribution)

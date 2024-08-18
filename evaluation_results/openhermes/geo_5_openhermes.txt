@@ -1,0 +1,31 @@
+import geopandas as gpd
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the GeoDataFrame
+geo_df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Load the Europe shapefile
+europe_df = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Load the dataset (assuming the file is in the same directory as the script)
+data = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Calculate the median value of 'K'
+median_k = data['K'].median()
+
+# Filter the data to only include locations where 'K' is above its median value
+above_median_k = data[data['K'] > median_k]
+
+# Merge the filtered data with the GeoDataFrame using the 'POINTID' column as the key
+above_median_k_geo = geo_df.merge(above_median_k, on='POINTID')
+
+# Plot the Europe shapefile
+plt.figure(figsize=(10,10))
+europe_df.plot(marker='.')
+
+# Plot the markers for the locations where 'K' is above its median value
+above_median_k_geo.plot(marker='.', color='red', alpha=0.5)
+
+# Save the plot as a png
+plt.savefig('plot.png')

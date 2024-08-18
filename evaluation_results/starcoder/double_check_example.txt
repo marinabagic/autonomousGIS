@@ -1,0 +1,153 @@
+### Instruction
+
+"You are working with a GeoDataFrame that is located in '/home/fkriskov/diplomski/datasets/geo_dataframe.shp'."
+"Plot the Europe shapefile that is located in '/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp'."
+"You cannot merge these shapefiles,just plot them."
+"set marker='.' and figsize (10,10)"
+"These are the columns of the dataframe:"
+['Depth', 'POINTID', 'pH_CaCl2', 'pH_H2O', 'EC', 'OC', 'CaCO3', 'P', 'N', 'K', 'OC (20-30 cm)', 'CaCO3 (20-30 cm)', 'Ox_Al', 'Ox_Fe', 'NUTS_0', 'NUTS_1', 'NUTS_2', 'NUTS_3', 'TH_LAT', 'TH_LONG', 'SURVEY_DATE', 'Elev', 'LC', 'LU', 'LC0_Desc', 'LC1_Desc', 'LU1_Desc']
+"These are the columns of the Europe Shapefile:"
+Index(['Shape_Leng', 'geometry'], dtype='object')
+
+"'NUTS_0' is Alpha-2 code."
+"The possible NUTS_0 codes are: ['SE', 'DE', 'CY', 'BE', 'BG', 'LV', 'ES', 'DK', 'HU', 'NL', 'PT', 'IE', 'EE', 'LU', 'SK', 'EL', 'UK', 'FI', 'HR', 'CZ', 'AT', 'PL', 'FR', 'LT', 'MT', 'RO', 'SI', 'IT']"
+"And this is the head of the dataframe:"
+"     Depth   POINTID  pH_CaCl2  pH_H2O     EC    OC  CaCO3     P  ...    TH_LONG  SURVEY_DATE  Elev   LC    LU  LC0_Desc                              LC1_Desc  LU1_Desc
+0  0-20 cm  47862690       4.1    4.81   8.73  12.4    3.0   0.0  ...  16.134212     06-07-18   291  C23  U120  Woodland             Other coniferous woodland  Forestry
+1  0-20 cm  47882704       4.1    4.93   5.06  16.7    1.0   0.0  ...  16.175359     06-07-18   373  C21  U120  Woodland  Spruce dominated coniferous woodland  Forestry
+2  0-20 cm  47982688       4.1    4.85  12.53  47.5    1.0  12.3  ...  16.289693     02-06-18   246  C33  U120  Woodland                  Other mixed woodland  Forestry
+3  0-20 cm  48022702       5.5    5.80  21.10  28.1    3.0   0.0  ...  16.357506     06-07-18   305  C22  U120  Woodland    Pine dominated coniferous woodland  Forestry
+4  0-20 cm  48062708       6.1    6.48  10.89  19.4    2.0   0.0  ...  16.416782     05-07-18   335  C22  U120  Woodland    Pine dominated coniferous woodland  Forestry
+
+[5 rows x 27 columns]
+"
+"Follow these instructions:"
+"1. Convert the query to executable Python code using Pandas.
+2. The solution should be a Python expression that can be called with the `exec()` function, inside '```python ```'.
+3. The code should represent a solution to the query.
+4. If not instructed otherwise, print the final result variable.
+5. If you are asked to plot something, save it as a plot.png.
+6. Don't explain the code.
+"
+
+"answer this query:"
+"plot all the points with LC0_Desc=Woodland & pH_CaCl2<6 in Europe. Save the result as a png. Use geopandas.
+"
+
+
+### Response
+Here is the Python code to answer the query:
+
+```python
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+result = df[(df['LC0_Desc'] == 'Woodland') & (df['pH_CaCl2'] < 6)]
+
+fig, ax = plt.subplots(figsize=(15, 10))
+europe.plot(ax=ax, color='lightgray')
+result.plot(ax=ax, marker='.', color='red')
+plt.savefig('result.png')
+```
+
+------------------GREAT SUCCESS!!!------------------
+
+
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+result = df[(df['LC0_Desc'] == 'Woodland') & (df['pH_CaCl2'] < 6)]
+
+fig, ax = plt.subplots(figsize=(15, 10))
+europe.plot(ax=ax, color='lightgray')
+result.plot(ax=ax, marker='.', color='red')
+plt.savefig('result.png')
+
+
+------------------REZULTAT!!!------------------
+
+
+Running Double Check...
+
+<|endoftext|>You are an exceptionally intelligent coding assistant that consistently delivers accurate and reliable responses to user instructions.
+
+### Instruction
+You generated this code:
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+result = df[(df['LC0_Desc'] == 'Woodland') & (df['pH_CaCl2'] < 6)]
+
+fig, ax = plt.subplots(figsize=(15, 10))
+europe.plot(ax=ax, color='lightgray')
+result.plot(ax=ax, marker='.', color='red')
+plt.savefig('result.png')
+
+based on these rules:
+
+"You are working with a GeoDataFrame that is located in '/home/fkriskov/diplomski/datasets/geo_dataframe.shp'."
+"Plot the Europe shapefile that is located in '/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp'."
+"You cannot merge these shapefiles,just plot them."
+"set marker='.' and figsize (10,10)"
+"These are the columns of the dataframe:"
+['Depth', 'POINTID', 'pH_CaCl2', 'pH_H2O', 'EC', 'OC', 'CaCO3', 'P', 'N', 'K', 'OC (20-30 cm)', 'CaCO3 (20-30 cm)', 'Ox_Al', 'Ox_Fe', 'NUTS_0', 'NUTS_1', 'NUTS_2', 'NUTS_3', 'TH_LAT', 'TH_LONG', 'SURVEY_DATE', 'Elev', 'LC', 'LU', 'LC0_Desc', 'LC1_Desc', 'LU1_Desc']
+"These are the columns of the Europe Shapefile:"
+Index(['Shape_Leng', 'geometry'], dtype='object')
+
+"'NUTS_0' is Alpha-2 code."
+"The possible NUTS_0 codes are: ['SE', 'DE', 'CY', 'BE', 'BG', 'LV', 'ES', 'DK', 'HU', 'NL', 'PT', 'IE', 'EE', 'LU', 'SK', 'EL', 'UK', 'FI', 'HR', 'CZ', 'AT', 'PL', 'FR', 'LT', 'MT', 'RO', 'SI', 'IT']"
+"And this is the head of the dataframe:"
+"     Depth   POINTID  pH_CaCl2  pH_H2O     EC    OC  CaCO3     P  ...    TH_LONG  SURVEY_DATE  Elev   LC    LU  LC0_Desc                              LC1_Desc  LU1_Desc
+0  0-20 cm  47862690       4.1    4.81   8.73  12.4    3.0   0.0  ...  16.134212     06-07-18   291  C23  U120  Woodland             Other coniferous woodland  Forestry
+1  0-20 cm  47882704       4.1    4.93   5.06  16.7    1.0   0.0  ...  16.175359     06-07-18   373  C21  U120  Woodland  Spruce dominated coniferous woodland  Forestry
+2  0-20 cm  47982688       4.1    4.85  12.53  47.5    1.0  12.3  ...  16.289693     02-06-18   246  C33  U120  Woodland                  Other mixed woodland  Forestry
+3  0-20 cm  48022702       5.5    5.80  21.10  28.1    3.0   0.0  ...  16.357506     06-07-18   305  C22  U120  Woodland    Pine dominated coniferous woodland  Forestry
+4  0-20 cm  48062708       6.1    6.48  10.89  19.4    2.0   0.0  ...  16.416782     05-07-18   335  C22  U120  Woodland    Pine dominated coniferous woodland  Forestry
+
+[5 rows x 27 columns]
+"
+"Follow these instructions:"
+"1. Convert the query to executable Python code using Pandas.
+2. The solution should be a Python expression that can be called with the `exec()` function, inside '```python ```'.
+3. The code should represent a solution to the query.
+4. If not instructed otherwise, print the final result variable.
+5. If you are asked to plot something, save it as a plot.png.
+6. Don't explain the code.
+"
+
+"answer this query:"
+"plot all the points with LC0_Desc=Woodland & pH_CaCl2<6 in Europe. Save the result as a png. Use geopandas.
+"
+
+
+If there is something you think should be different, change it, if not, don't generate any code.
+
+
+### Response
+Here's how you can implement this in Python:
+
+```python
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+result = df[(df['LC0_Desc'] == 'Woodland') & (df['pH_CaCl2'] < 6)]
+
+fig, ax = plt.subplots(figsize=(10, 10))
+europe.plot(ax=ax, color='lightgray')
+result.plot(ax=ax, marker='.', color='red')
+plt.savefig('result.png')
+```
+
+Running Code...

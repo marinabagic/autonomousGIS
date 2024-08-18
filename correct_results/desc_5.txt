@@ -1,0 +1,6 @@
+import pandas as pd
+
+data = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+slovenia_data = data[data['NUTS_0'] == 'SI']
+max_n_value = slovenia_data['N'].max()
+print(max_n_value)

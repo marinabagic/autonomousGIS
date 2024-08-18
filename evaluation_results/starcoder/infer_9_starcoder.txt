@@ -1,0 +1,14 @@
+
+import pandas as pd
+import numpy as np
+from scipy.stats import ttest_1samp
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+mean_K = df['K'].mean()
+
+t_statistic, p_value = ttest_1samp(df['K'], 2)
+
+print(f"Mean 'K' content: {mean_K:.2f}")
+print(f"T-statistic: {t_statistic:.2f}")
+print(f"P-value: {p_value:.4f}")

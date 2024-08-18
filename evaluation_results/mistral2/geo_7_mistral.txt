@@ -1,0 +1,17 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load the Europe coastline shapefile
+gdf_europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Load the shapefile containing the data for 'gdf'
+gdf = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Find the top 10 percentile based on 'pH_H2O' column
+top_10_percentile = gdf.query('pH_H2O > gdf["pH_H2O"].quantile(0.9)')
+
+fig, ax = plt.subplots(figsize=(10,10))
+gdf_europe.plot(ax=ax, edgecolor='none')
+top_10_percentile.plot(ax=ax, marker='.', markersize=5, alpha=0.8, color='red')
+
+plt.savefig('map.png')

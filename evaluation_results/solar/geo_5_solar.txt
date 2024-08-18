@@ -1,0 +1,27 @@
+import geopandas as gpd
+import pandas as pd
+import matplotlib.pyplot as plt
+from shapely.geometry import Point
+
+# Load the GeoDataFrame
+geo_dataframe = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Load the Europe shapefile
+europe_coastline = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Calculate the median value of 'K' column
+median_k = pd.Series(geo_dataframe['K']).median()
+
+# Create a mask for locations where 'K' is above its median value
+above_median_k = geo_dataframe['K'] > median_k
+
+# Create a new GeoSeries with marker points for those locations
+marker_points = geo_dataframe.loc[above_median_k, 'POINTID'].apply(Point)
+
+# Plot the Europe shapefile and marker points
+fig, ax = plt.subplots(figsize=(10,10))
+europe_coastline.plot(ax=ax, color='None', edgecolor='black')
+marker_points.plot(ax=ax, markersize=10, marker='.')
+
+# Save the plot as png
+plt.savefig('plot.png')

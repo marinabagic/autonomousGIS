@@ -1,0 +1,24 @@
+
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+mean_pH_H2O = df['pH_H2O'].mean()
+std_dev_pH_H2O = df['pH_H2O'].std()
+
+sample_size = 30
+samples = np.random.choice(df['pH_H2O'], size=(10000, sample_size), replace=True)
+
+sample_means = samples.mean(axis=1)
+
+sns.kdeplot(sample_means, label='Sampling Distribution')
+sns.kdeplot(np.random.normal(mean_pH_H2O, std_dev_pH_H2O, 100000), label='Normal Distribution')
+
+plt.xlabel('Mean pH_H2O')
+plt.ylabel('Density')
+plt.legend()
+plt.savefig('pH_H2O_distribution.png')
+plt.show()

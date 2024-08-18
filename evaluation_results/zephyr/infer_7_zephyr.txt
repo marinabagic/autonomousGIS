@@ -1,0 +1,46 @@
+
+import pandas as pd
+import numpy as np
+import scipy.stats as stats
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+pH_H2O = df['pH_H2O'].values
+
+# Function to generate a random sample of size n from a population
+def sample(population, n):
+    return np.random.choice(population, size=n, replace=True)
+
+# Function to calculate the mean of a sample
+def calculate_mean(sample):
+    return np.mean(sample)
+
+# Function to calculate the standard error of the mean for a given sample size
+def calculate_se(sample_size):
+    return np.sqrt(np.var(pH_H2O) / sample_size)
+
+# Function to generate 10000 samples of size 30 and calculate their means
+def generate_samples(n):
+    means = []
+    for _ in range(10000):
+        sample = sample(pH_H2O, n)
+        mean = calculate_mean(sample)
+        means.append(mean)
+    return means
+
+# Generate samples and calculate means
+samples = list(map(generate_samples, [30]))
+means = [np.mean(sample) for sample in samples]
+
+# Calculate the standard error of the mean for the sample size of 30
+se = calculate_se(30)
+
+# Plot the histogram of the simulated sampling distribution
+fig, ax = plt.subplots()
+ax.hist(means, bins=50, density=True, color='grey')
+ax.set_xlabel('Mean pH_H2O')
+ax.set_ylabel('Probability density')
+ax.set_title('Sampling Distribution of Mean pH_H2O (n=30)')
+plt.show()
+
+# Calculate the z-score of the true population mean (5.80) from the mean of

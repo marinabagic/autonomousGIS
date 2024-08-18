@@ -1,0 +1,22 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+
+# Load the CSV file
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/IRIS flower dataset.csv')
+
+# Find the maximum 'petal_length' for each species
+max_petal_length = df.groupby('species')['petal_length'].max()
+
+# Print the result
+print(max_petal_length)
+
+
+------------------REZULTAT!!!------------------
+
+species
+Iris-setosa        1.9
+Iris-versicolor    5.1
+Iris-virginica     6.9
+Name: petal_length, dtype: float64

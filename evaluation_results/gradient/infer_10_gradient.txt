@@ -1,0 +1,18 @@
+
+import pandas as pd
+
+# Load the CSV file
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Calculate the correlation between 'P' and 'K'
+corr = df['P'].corr(df['K'])
+
+# Calculate the p-value for the correlation
+from scipy.stats import ttest_ind
+p_value = ttest_ind(df['P'], df['K'], equal_var=False)[1]
+
+# Determine if the correlation is statistically significant
+if p_value < 0.05:
+    print("The correlation is statistically significant.")
+else:
+    print("The correlation is not statistically significant.")

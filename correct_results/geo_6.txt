@@ -1,0 +1,15 @@
+import pandas as pd
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+gdf = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+europe_shapefile = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+fig, ax = plt.subplots(figsize=(10, 10))
+europe_shapefile.plot(ax=ax, color='white', edgecolor='black')
+
+gdf.plot(ax=ax, marker='.', column='pH_CaCl2', cmap='hot', legend=True, markersize=gdf['pH_CaCl2'])
+
+plt.title('Heatmap of pH_CaCl2 in Europe')
+plt.savefig('plot.png')

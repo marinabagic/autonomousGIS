@@ -1,0 +1,29 @@
+
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Read GeoDataFrame from file
+geo_df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Read Europe Shapefile into a GeoSeries
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp', nrows=0)['geometry']
+
+# Merge Europe shapefile with GeoDataFrame as a new column
+geo_df = geo_df.with_properties(geometry=geo_df.geometry)
+geo_df = gpd.GeoDataFrame(geo_df, geometry='geometry', crs=geo_df.crs)
+geo_df = geo_df.sjoin(europe, how='inner')
+
+# Filter points based on pH_H2O
+points_blue = geo_df[geo_df['pH_H2O'] > 5]
+points_red = geo_df[geo_df['pH_H2O'] < 5]
+
+# Plot Europe shapefile
+ax = plt.axes(projection=geo_df.crs)
+europe.plot(ax=ax, color='gray', lw=0.5)
+
+# Plot points with pH_H2O > 5 in blue and pH_H2O < 5 in red
+points_blue.plot(ax=ax, markersize=5, marker='o', color='blue')
+points_red.plot(ax=ax, markersize=5, marker='o', color='red')
+
+# Save plot as png
+plt.savefig('plot.png')

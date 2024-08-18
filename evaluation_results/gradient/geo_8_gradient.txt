@@ -1,0 +1,19 @@
+
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# load the shapefiles
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# plot the europe shapefile
+fig, ax = plt.subplots(figsize=(10,10))
+europe.plot(ax=ax, color='white', edgecolor='black')
+ax.set_title('Europe Coastline')
+plt.savefig('europe_coastline.png')
+
+# plot the points with pH_H2O > 5 blue and pH_H2O < 5 red
+fig, ax = plt.subplots(figsize=(10,10))
+df.plot(ax=ax, column='pH_H2O', cmap='coolwarm', legend=True)
+plt.title('pH_H2O Distribution')
+plt.savefig('pH_H2O_distribution.png')

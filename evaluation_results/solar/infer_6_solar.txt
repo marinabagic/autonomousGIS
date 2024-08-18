@@ -1,0 +1,20 @@
+
+import pandas as pd
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Filter the dataframe to only include the 'OC' column
+oc_df = df[df.columns == 'OC']
+
+# Calculate the mean and standard deviation of 'OC'
+mean_oc = oc_df.mean()
+std_oc = oc_df.std()
+
+# Import the scipy.stats module for calculating confidence intervals
+import scipy.stats as st
+
+# Calculate the 95% confidence interval for the mean 'OC'
+ci_lower = mean_oc - st.t.ppf((1 - 0.05/2), len(oc_df) - 1) * std_oc
+ci_upper = mean_oc + st.t.ppf((1 - 0.05/2), len(oc_df) - 1) * std_oc
+
+# Output the confidence interval
+print(f'95% Confidence Interval for mean OC: [{ci_lower:.2f}, {ci_upper:.2f}]')

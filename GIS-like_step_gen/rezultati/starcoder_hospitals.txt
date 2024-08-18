@@ -1,0 +1,91 @@
+import geopandas as gpd
+import pandas as pd
+import shapely.geometry as shp_geo
+import matplotlib.pyplot as plt
+
+def load_sc_zip_boundary(sc_zip_boundary_url):
+    """
+    Load SC zipcode boundary shapefile
+
+    Parameters:
+    sc_zip_boundary_url (str): URL of the SC zipcode boundary shapefile
+
+    Returns:
+    gdf (geopandas.GeoDataFrame): SC zipcode boundary GeoDataFrame
+    """
+    gdf = gpd.read_file(sc_zip_boundary_url)
+    return gdf
+
+def load_sc_hospitals(sc_hospitals_url):
+    sc_hospitals_df = pd.read_csv(sc_hospitals_url)
+    return sc_hospitals_df
+
+def calculate_centroid(sc_zip_boundary_gdf):
+    sc_zip_boundary_centroid_gdf = sc_zip_boundary_gdf.copy()
+    sc_zip_boundary_centroid_gdf['geometry'] = sc_zip_boundary_gdf.centroid
+    return sc_zip_boundary_centroid_gdf
+
+def calculate_distance(sc_zip_boundary_centroid_gdf, sc_hospitals_df):
+    distances = []
+    for index, row in sc_zip_boundary_centroid_gdf.iterrows():
+        centroid = row['geometry']
+        nearest_hospital_distance = float('inf')
+        for index2, row2 in sc_hospitals_df.iterrows():
+            hospital_location = shp_geo.Point(row2['POINT_X'], row2['POINT_Y'])
+            distance = centroid.distance(hospital_location)
+            if distance < nearest_hospital_distance:
+                nearest_hospital_distance = distance
+        distances.append({'ZIPCODE': row['ZCTA5CE10'], 'distance': nearest_hospital_distance})
+
+    sc_zip_boundary_centroid_distance_df = pd.DataFrame(distances)
+    return sc_zip_boundary_centroid_distance_df
+
+def find_nearest_hospital(sc_zip_boundary_centroid_distance_df):
+    sc_zip_boundary_centroid_nearest_hospital_df = sc_zip_boundary_centroid_distance_df.groupby('ZIPCODE')['distance'].min().reset_index()
+    return sc_zip_boundary_centroid_nearest_hospital_df
+
+# def create_choropleth_map(sc_zip_boundary_centroid_nearest_hospital_df, sc_zip_boundary_gdf):
+#     sc_zip_boundary_gdf = sc_zip_boundary_gdf.merge(sc_zip_boundary_centroid_nearest_hospital_df, left_on='ZCTA5CE10', right_on='ZIPCODE')
+#     sc_zip_boundary_gdf.plot(column='distance', legend=True, figsize=(15, 10))
+#     sc_zip_boundary_gdf.crs = "EPSG:4326"
+#     sc_zip_boundary_gdf = sc_zip_boundary_gdf.to_crs(epsg=3857)
+#     plt.title('Distance to the Nearest Hospital')
+#     plt.savefig('choropleth_map.png')
+#     return 'choropleth_map.png'
+
+def add_hospital(sc_hospitals_df, sc_zip_boundary_centroid_nearest_hospital_df, sc_zip_boundary_gdf):
+    sc_hospitals_gdf = gpd.GeoDataFrame(sc_hospitals_df, geometry=gpd.points_from_xy(sc_hospitals_df['POINT_X'], sc_hospitals_df['POINT_Y']))
+    sc_hospitals_gdf.crs = "EPSG:4326"
+    sc_hospitals_gdf = sc_hospitals_gdf.to_crs(epsg=3857)
+    # choropleth_map = plt.imread(choropleth_map_path)
+
+    sc_zip_boundary_gdf = sc_zip_boundary_gdf.merge(sc_zip_boundary_centroid_nearest_hospital_df, left_on='ZCTA5CE10', right_on='ZIPCODE')
+    sc_zip_boundary_gdf.crs = "EPSG:4326"
+    sc_zip_boundary_gdf = sc_zip_boundary_gdf.to_crs(epsg=3857)
+
+    fig, ax = plt.subplots(figsize=(15, 10))
+    result = sc_zip_boundary_gdf.plot(column='distance', legend=True, figsize=(15, 10))
+    sc_hospitals_gdf.plot(ax=result, color='orange', markersize=10)
+    ax.set_title('Distance to the Nearest Hospital')
+    ax.set(xlabel='Longitude', ylabel='Latitude')
+    ax.legend(['Hospitals'])
+    plt.savefig('final_map.png')
+    return "final_map.png"
+
+def assembely_solution():
+    sc_zip_boundary_url = 'https://github.com/GIBDUSC/test/raw/master/sc_zip_boundary.zip'
+    sc_hospitals_url = "https://github.com/gladcolor/spatial_data/raw/master/South_Carolina/SC_hospitals_with_emergency_room_cleaned.csv"
+
+    sc_zip_boundary_gdf = load_sc_zip_boundary(sc_zip_boundary_url)
+    sc_hospitals_df = load_sc_hospitals(sc_hospitals_url)
+    sc_zip_boundary_centroid_gdf = calculate_centroid(sc_zip_boundary_gdf)
+    sc_zip_boundary_centroid_distance_df = calculate_distance(sc_zip_boundary_centroid_gdf, sc_hospitals_df)
+    sc_zip_boundary_centroid_nearest_hospital_df = find_nearest_hospital(sc_zip_boundary_centroid_distance_df)
+    # choropleth_map_path = create_choropleth_map(sc_zip_boundary_centroid_nearest_hospital_df, sc_zip_boundary_gdf)
+    final_map_path = add_hospital(sc_hospitals_df, sc_zip_boundary_centroid_nearest_hospital_df, sc_zip_boundary_gdf)
+
+    return final_map_path
+
+if __name__ == '__main__':
+    final_map_path = assembely_solution()
+    print(f"Final map saved to: {final_map_path}")

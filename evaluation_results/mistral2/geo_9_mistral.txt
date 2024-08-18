@@ -1,0 +1,35 @@
+
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load the GeoDataFrame from the shapefile
+geo_df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Load the Europe shapefile
+europe_shapefile = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Merge the two GeoDataFrames based on geometry
+result = gpd.sjoin(geo_df, europe_shapefile, how='inner')
+
+# Create a figure and axis object
+fig, ax = plt.subplots(figsize=(10, 10))
+
+# Plot Europe coastline
+europe_shapefile.plot(ax=ax, edgecolor='black', linewidth=0.5)
+
+# Plot each soil type with a different color
+palette = ['r', 'g', 'b', 'c','m', 'y', 'k', 'purple', 'orange', 'green', 'brown', 'pink', 'gray', 'olive', 'cyan']
+for i, soil_type in enumerate(result['LC0_Desc'].unique()):
+    index = result['LC0_Desc'] == soil_type
+    result.loc[index, 'geometry'].plot(ax=ax, color=palette[i], markersize=1)
+
+# Set the title and axis labels
+ax.set_title('Distribution of Soil Types in Europe')
+ax.set_xlabel('Longitude')
+ax.set_ylabel('Latitude')
+
+# Save the plot as a png file
+plt.savefig('map.png')
+
+# Display the plot
+plt.show()

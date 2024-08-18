@@ -1,0 +1,20 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load Europe shapefile
+eu_shapefile = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Load GeoDataFrame
+geo_df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Filter rows where 'K' is above its median value
+filtered_df = geo_df[geo_df['K'] > geo_df['K'].median()]
+
+# Merge Europe shapefile with filtered GeoDataFrame
+result = eu_shapefile.merge(filtered_df, how='left')
+
+# Set marker and figsize
+result.plot(marker='.', figsize=(10, 10))
+
+# Save the plot as png
+plt.savefig('map.png')

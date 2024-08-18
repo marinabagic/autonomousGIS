@@ -1,0 +1,13 @@
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv")
+
+grouped = df.groupby('LC0_Desc')['OC'].mean()
+
+plt.bar(grouped.index, grouped)
+plt.xlabel('Land Type (LC0_Desc)')
+plt.ylabel('Average Organic Carbon (OC)')
+plt.title('Average Organic Carbon by Land Type')
+plt.savefig('average_oc_by_land_type.png')

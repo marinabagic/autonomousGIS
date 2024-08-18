@@ -1,0 +1,13 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+
+df = pd.read_csv("/home/fkriskov/diplomski/datasets/IRIS flower dataset.csv")
+species_max_petal_length = df.loc[df.groupby('species')['petal_length'].idxmax()]
+print(species_max_petal_length['species'].values[0])
+
+
+------------------REZULTAT!!!------------------
+
+Iris-setosa

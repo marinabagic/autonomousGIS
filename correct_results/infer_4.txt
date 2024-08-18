@@ -1,0 +1,11 @@
+import pandas as pd
+from scipy.stats import ttest_ind
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+Grassland = df[df['LC0_Desc'] == 'Grassland']['K']
+Cropland = df[df['LC0_Desc'] == 'Cropland']['K']
+
+t_statistic, p_value = ttest_ind(Grassland, Cropland)
+
+print(f"T-statistic: {t_statistic}, p-value: {p_value}")

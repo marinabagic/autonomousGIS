@@ -1,0 +1,5 @@
+import pandas as pd
+
+data = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+austria_pH = data[data['NUTS_0'] == 'AT']['pH_CaCl2'].mean()
+print(austria_pH)

@@ -1,0 +1,29 @@
+
+import pandas as pd
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Calculate mean K content for entire dataset
+mean_k = df['K'].mean()
+print(f"Mean K content: {mean_k:.4f}%")
+
+# Calculate standard deviation of K content for entire dataset
+std_k = df['K'].std()
+print(f"Standard deviation of K content: {std_k:.4f}%")
+
+# Calculate t-statistic and degrees of freedom for t-test
+t_stat, p_val = df['K'].value_counts().tail(1).values[0], len(df) - 1
+print(f"t-statistic: {t_stat:.4f}, degrees of freedom: {dofs:d}")
+
+# Set alternative hypothesis (two-sided)
+alpha = 0.05
+hypothesis = 'two-sided'
+
+# Calculate critical value for t-distribution
+critical_value = abs(statistics.t.ppf(alpha / 2, dofs))
+print(f"Critical value: {critical_value:.4f}")
+
+# Compare t-statistic with critical value
+if abs(t_stat) > critical_value:
+    print("Hypothesis is rejected at alpha level")
+else:
+    print("Hypothesis is not rejected at alpha level")

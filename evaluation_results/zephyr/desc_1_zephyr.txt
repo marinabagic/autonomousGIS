@@ -1,0 +1,3 @@
+
+grouped = df.groupby('LC0_Desc')['pH_H2O'].mean()
+print(grouped.idx[grouped.values.argmax()])

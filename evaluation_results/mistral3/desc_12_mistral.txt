@@ -1,0 +1,22 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+
+data = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+result = data.groupby('LC0_Desc')['K'].sum()
+print(result)
+
+
+------------------REZULTAT!!!------------------
+
+LC0_Desc
+Artificial land      14210.40
+Bareland            155188.10
+Cropland           1866712.70
+Grassland           825297.50
+Shrubland           158150.75
+Water                  276.10
+Wetlands              8277.20
+Woodland            845113.80
+Name: K, dtype: float64

@@ -1,0 +1,17 @@
+import pandas as pd
+import geopandas as gpd
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+
+gdf = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+kmeans = KMeans(n_clusters=3)
+gdf['cluster'] = kmeans.fit_predict(gdf[['TH_LAT', 'TH_LONG']])
+
+plt.figure(figsize=(10, 10))
+base = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+base.plot(ax=plt.gca(), color='white', edgecolor='black')
+gdf.plot(ax=plt.gca(), marker='.', column='cluster', cmap='viridis', legend=True)
+
+plt.title('KMeans Clustering of GeoDataFrame')
+plt.savefig('clusters.png')

@@ -1,0 +1,19 @@
+
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load the GeoDataFrame
+df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Load the Europe shapefile
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Plot the Europe shapefile
+fig, ax = plt.subplots(figsize=(10,10))
+europe.plot(ax=ax, color='lightblue', edgecolor='black')
+
+# Plot the distribution of soil types
+df.plot(ax=ax, column='LC0_Desc', categorical=True, markersize=5, marker='.', legend=True)
+
+# Save the map as a png
+plt.savefig('soil_types_map.png')

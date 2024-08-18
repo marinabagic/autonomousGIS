@@ -1,0 +1,27 @@
+import geopandas as gpd
+from shapely.geometry import Point
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# Load shapefiles
+geo_dataframe = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+Europe_coastline = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Extract latitude and longitude
+def extract_coordinates(geometry):
+    return (geometry.y, geometry.x)
+
+geo_dataframe['TH_LAT'] = geo_dataframe['geometry'].apply(extract_coordinates)[0]
+geo_dataframe['TH_LONG'] = geo_dataframe['geometry'].apply(extract_coordinates)[1]
+Europe_coastline['TH_LAT'] = Europe_coastline['geometry'].apply(extract_coordinates)[0]
+Europe_coastline['TH_LONG'] = Europe_coastline['geometry'].apply(extract_coordinates)[1]
+
+# Perform KMeans clustering on the TH_LAT and TH_LONG data
+kmeans = KMeans(n_clusters=3)
+kmeans.fit(pd.DataFrame(list(zip(geo_dataframe['TH_LAT'], geo_dataframe['TH_LONG'])), columns=['TH_LAT', 'TH_LONG']))
+
+# Add cluster labels to the geo_dataframe
+geo_dataframe['cluster'] = kmeans.labels_
+
+# Plot the Europe coastline and the clustered points
+fig, ax

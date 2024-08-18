@@ -1,0 +1,26 @@
+import pandas as pd
+import seaborn as sns
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# Load the GeoDataFrame
+geo_dataframe = pd.read_csv('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Load the Europe shapefile
+europe_coastline = pd.read_csv('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Extract TH_LAT and TH_LONG columns
+data_for_clustering = geo_dataframe[['TH_LAT', 'TH_LONG']]
+
+# Perform KMeans clustering
+kmeans = KMeans(n_clusters=3).fit(data_for_clustering)
+
+# Assign cluster labels to data
+data_for_clustering['cluster'] = kmeans.labels_
+
+# Plot Europe coastline and clusters
+ax = sns.empty_map('Europe_coastline', data=europe_coastline, marker='.', palette="Set1", size=3)
+sns.pointplot(data=data_for_clustering, hue='cluster', ax=ax)
+
+# Save the plot as png
+plt.savefig('map_with_clusters.png')

@@ -1,0 +1,14 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+
+df = pd.read_csv("/home/fkriskov/diplomski/datasets/IRIS flower dataset.csv")
+
+result = df['species'][df['petal_length'].idxmax()]
+print(result)
+
+
+------------------REZULTAT!!!------------------
+
+Iris-virginica

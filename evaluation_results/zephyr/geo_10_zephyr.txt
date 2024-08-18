@@ -1,0 +1,17 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load GeoDataFrame and Europe shapefile
+df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Filter and plot grassland and woodland points with OC > 20
+grassland_woodland = df[(df['LC0_Desc'].str.contains('Grassland') | df['LC0_Desc'].str.contains('Woodland')) & (df['OC'] > 20)]
+fig, ax = plt.subplots(figsize=(10, 10))
+grassland_woodland.plot(ax=ax,column='OC', cmap='coolwarm')
+
+# Add Europe shapefile to the map
+europe.plot(ax=ax, color='gray', alpha=0.5)
+
+# Save the map as a png
+fig.savefig('map.png')

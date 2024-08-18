@@ -1,0 +1,8 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+sns.histplot(df['K'], kde=True)
+plt.title('Distribution of K')
+plt.savefig('plot.png')

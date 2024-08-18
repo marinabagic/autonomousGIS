@@ -1,0 +1,15 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+from scipy.stats import ttest_ind
+
+df = pd.read_csv("/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv")
+
+t_stat, p_val = ttest_ind(df.loc[df['LC0_Desc'] == 'Grassland','K'], df.loc[df['LC0_Desc'] == 'Cropland','K'])
+
+print(t_stat, p_val)
+
+
+------------------REZULTAT!!!------------------
+

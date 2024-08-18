@@ -1,0 +1,17 @@
+
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load the Europe shapefile
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Load the soil type data
+soil_types = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Merge the two datasets based on the NUTS_0 code
+merged = gpd.sjoin(soil_types, europe, how='left', op='intersects')
+
+# Plot the merged dataset with soil types represented by different colors
+merged.plot(column='LC0_Desc', cmap='tab20', legend=True)
+plt.title('Distribution of Soil Types Across Europe')
+plt.savefig('soil_types_map.png')

@@ -1,0 +1,14 @@
+import pandas as pd
+import scipy.stats as stats
+
+# Load the dataset
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Calculate the correlation coefficient and p-value between 'P' and 'K'
+correlation_coefficient, p_value = stats.pearsonr(df['P'], df['K'])
+
+# Print the results
+print(p_value)
+
+# Correlation coefficient: 0.2226117821588154
+# P-value: 8.231555984710444e-212

@@ -1,0 +1,12 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/IRIS flower dataset.csv')
+result = df.sort_values('petal_length', ascending=False)['species'].iloc[0]
+print(result)
+
+
+------------------REZULTAT!!!------------------
+
+Iris-virginica

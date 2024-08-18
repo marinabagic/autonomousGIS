@@ -1,0 +1,26 @@
+
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Load the GeoDataFrame
+geo_dataframe = gpd.read_file('path/to/geo_dataframe.shp')
+
+# Load the Europe shapefile
+europe_shapefile = gpd.read_file('path/to/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Merge the two datasets on the common column 'NUTS_0'
+merged_df = geo_dataframe.merge(europe_shapefile, on='NUTS_0')
+
+# Create a new column for the LC0_Desc categorical variable
+merged_df['LC0_Desc_cat'] = merged_df['LC0_Desc'].astype('category')
+
+# Define a color map using the viridis cmap with 100 discrete colors
+cmap = plt.cm.viridis(100)
+
+# Plot the map using geopandas
+fig, ax = plt.subplots(figsize=(10, 10))
+merged_df.plot(column='LC0_Desc_cat', cmap=cmap, ax=ax)
+
+# Save the map as a png
+plt.savefig('map.png')

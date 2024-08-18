@@ -1,0 +1,23 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# load the csv file
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# filter the dataframe for rows where 'K' is not missing
+df = df.dropna(subset=['K'])
+
+# plot the distribution of 'K' with a KDE overlay
+plt.figure(figsize=(10,6))
+sns.kdeplot(df['K'], shade=True)
+plt.title('Distribution of K')
+plt.xlabel('K')
+plt.ylabel('Density')
+plt.savefig('kde_plot.png')
+
+
+------------------REZULTAT!!!------------------

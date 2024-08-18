@@ -1,0 +1,15 @@
+import pandas as pd
+import scipy.stats as stats
+
+# Load the dataset
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Perform a t-test to determine if the mean 'K' content is significantly different from 2%
+t_stat, p_value = stats.ttest_1samp(df['K'].dropna(), 2)
+
+# Print the results
+print("T-statistic:", t_stat)
+print("P-value:", p_value)
+
+# T-statistic: 134.4303152369844
+# P-value: 0.0

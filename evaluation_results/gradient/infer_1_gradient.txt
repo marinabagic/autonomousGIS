@@ -1,0 +1,17 @@
+import pandas as pd
+import scipy.stats as stats
+
+# Load the dataset
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Convert the LC0_Desc column to categorical
+df['LC0_Desc'] = df['LC0_Desc'].astype('category')
+
+# Convert sepal length column to float
+df['pH_H2O'] = df['pH_H2O'].astype(float)
+
+# Calculate chi square for LC0_Desc and pH_H2O
+chi2, p, dof, expected = stats.chisquare(df['pH_H2O'], df['LC0_Desc'])
+
+# Print the chi square value
+print(chi2)

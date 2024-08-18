@@ -1,0 +1,10 @@
+import pandas as pd
+from scipy.stats import chi2_contingency
+
+df = pd.read_csv("/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv")
+
+data = df[['LC0_Desc','pH_H2O']].groupby(['LC0_Desc','pH_H2O']).size().unstack(fill_value=0)
+
+statistic, p, degrees_of_freedom, expected = chi2_contingency(data)
+
+print(statistic)

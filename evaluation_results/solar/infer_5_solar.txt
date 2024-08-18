@@ -1,0 +1,5 @@
+
+import pandas as pd
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+df.plot.scatter('pH_H2O', 'K', figsize=(10, 8))
+df.set_index('POINTID').drop_duplicates().plot.lm(x='pH_H2O', y='K', ax=plt.gca())

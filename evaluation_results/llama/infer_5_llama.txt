@@ -1,0 +1,13 @@
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+plt.figure(figsize=(8,6))
+sns.regplot(x='pH_H2O', y='K', data=df)
+plt.title('Linear Regression Analysis: pH_H2O vs K')
+plt.xlabel('pH_H2O')
+plt.ylabel('K')
+plt.savefig('plot.png')

@@ -1,0 +1,32 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load Europe shapefile
+eu_shapefile = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Load GeoDataFrame
+geo_dataframe = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Merge Europe shapefile and GeoDataFrame based on common column 'POINTID'
+# (however, instruction is to not merge, so we won't do that)
+
+# Filter Europe shapefile points
+europe_points = eu_shapefile[eu_shapefile.geometry.intersects(geo_dataframe.geometry)]
+
+# Create a new DataFrame with 'pH_CaCl2' values
+data = geo_dataframe[['POINTID', 'pH_CaCl2']].loc[geo_dataframe.index.isin(europe_points.index)]
+
+# Create a GeoSeries from Europe shapefile geometry
+geometries = eu_shapefile['geometry'].iloc[eu_shapefile.index.isin(europe_points.index)]
+
+# Combine DataFrame and GeoSeries into a GeoDataFrame
+heatmap_data = gpd.GeoDataFrame(data, geometry=geometries)
+
+# Set marker to '.' for the plot
+plt.figure(figsize=(10,10))
+heatmap_data.plot(column='pH_CaCl2', cmap='RdYlBu', marker='.', alpha=0.5)
+plt.xlabel('Longitude')
+plt.ylabel('Latitude')
+plt.title('Heatmap of pH_CaCl2 values in Europe')
+plt.savefig('heatmap.png')
+plt.show()

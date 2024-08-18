@@ -1,0 +1,20 @@
+
+import geopandas as gpd
+
+# Load the GeoDataFrame
+geo_df = gpd.read_file("/home/fkriskov/diplomski/datasets/geo_dataframe.shp")
+
+# Load the Europe Shapefile
+europe_df = gpd.read_file("/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp")
+
+# Filter the GeoDataFrame for LC0_Desc='Grassland' and LC0_Desc='Woodland' where OC>20
+filtered_geo_df = geo_df[(geo_df['LC0_Desc'].isin(['Grassland', 'Woodland'])) & (geo_df['OC'] > 20)]
+
+# Merge the filtered GeoDataFrame with the Europe Shapefile on geometry
+merged_df = gpd.sjoin(filtered_geo_df, europe_df, how='inner', op='intersects')
+
+# Plot the merged DataFrame
+merged_df.plot(marker='.', figsize=(10,10))
+
+# Save the plot as png
+merged_df.plot(marker='.', figsize=(10,10)).savefig("plot.png")

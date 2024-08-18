@@ -1,0 +1,5 @@
+import pandas as pd
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+result = df.groupby('LC0_Desc')['K'].sum()
+print(result)

@@ -1,0 +1,13 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+fig, ax = plt.subplots(figsize=(10,10))
+europe.plot(ax=ax, color='lightblue', edgecolor='black')
+
+df.plot(ax=ax, column='LC0_Desc', categorical=True, markersize=5, marker='.', legend=True)
+
+plt.savefig('soil_types_map.png')

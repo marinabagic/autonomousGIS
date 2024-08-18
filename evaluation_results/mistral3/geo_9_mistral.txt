@@ -1,0 +1,13 @@
+
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+europe = gpd.read_shapefile('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+data = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+data = data.merge(europe, on='geometry', how='left')
+
+fig, ax = plt.subplots(figsize=(10,10))
+data.plot(column='LC0_Desc', cmap='tab20', ax=ax)
+
+plt.savefig('soil_map.png')

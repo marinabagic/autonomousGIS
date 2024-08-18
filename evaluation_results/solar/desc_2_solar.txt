@@ -1,0 +1,8 @@
+
+import pandas as pd
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+df['NUTS_0'] = df['NUTS_0'].astype(str)
+
+df.groupby('LC0_Desc')['OC'].mean().plot(kind='bar')
+import matplotlib.pyplot as plt
+plt.savefig('plot.png')

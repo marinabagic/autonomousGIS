@@ -1,0 +1,9 @@
+import pandas as pd
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+grouped = df.groupby('LC0_Desc')['pH_H2O'].mean()
+max_value = grouped.max()
+max_desc = grouped[grouped == max_value].index[0]
+
+print(max_desc)

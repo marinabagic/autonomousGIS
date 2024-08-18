@@ -1,0 +1,35 @@
+
+import pandas as pd
+import seaborn as sns
+import numpy as np
+
+# Load the CSV file
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Select the 'pH_H2O' column
+pH_H2O = df['pH_H2O']
+
+# Calculate the mean of 'pH_H2O'
+mean_pH_H2O = pH_H2O.mean()
+
+# Calculate the standard deviation of 'pH_H2O'
+std_pH_H2O = pH_H2O.std()
+
+# Simulate sampling distribution for 30 samples
+n_samples = 10000
+samples = np.random.choice(pH_H2O, size=(n_samples, 30))
+
+# Calculate mean for each sample
+means = np.mean(samples, axis=1)
+
+# Plot the histogram of the means
+sns.histplot(means)
+
+# Plot the normal distribution with the same mean and standard deviation
+mu = mean_pH_H2O
+sigma = std_pH_H2O
+x = np.linspace(min(means)-3*sigma, max(means)+3*sigma, 1000)
+sns.kdeplot(x, np.exp(-(x-mu)**2/(2*sigma**2)), color='grey')
+
+# Save the plot
+sns.saveplot(format='png')

@@ -1,0 +1,16 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+filtered_df = df[df['EC'] > 10]
+avg_k = filtered_df['K'].mean()
+
+print(avg_k)
+
+
+------------------REZULTAT!!!------------------
+
+251.37874575467976

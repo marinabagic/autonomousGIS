@@ -1,0 +1,21 @@
+
+import geopandas as gpd
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the GeoDataFrame
+geo_dataframe = gpd.read_file('path/to/geo_dataframe.shp')
+
+# Filter the data based on the given conditions
+filtered_data = geo_dataframe[geo_dataframe['LC0_Desc'].isin(['Grassland', 'Woodland']) & geo_dataframe['OC'] > 20]
+
+# Load the Europe shapefile
+europe_shp = gpd.read_file('path/to/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Plot the filtered points on the Europe shapefile
+fig, ax = plt.subplots(figsize=(10, 10))
+europe_shp.plot(ax=ax, color='none', edgecolor='black')
+filtered_data.plot(ax=ax, marker='.', color='green')
+
+# Save the plot as a png
+plt.savefig('map.png')

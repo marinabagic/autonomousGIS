@@ -1,0 +1,35 @@
+# Assuming the GeoDataFrame is loaded as `geo_dataframe`
+
+# Load the Europe shapefile
+europe_shp = r'/home/fkriskov/diplomski/datasets/Europe_coastline_shp/Europe_coastline.shp'
+europe_df = gpd.read_file(europe_shp)
+
+# Convert the GeoDataFrame to a DataFrame for calculating percentile
+df = geo_dataframe.reset_index(drop=True)
+
+# Find the top 10 percentile of 'pH_H2O' values
+top_percentile = df['pH_H2O'].quantile(0.9)
+
+# Create a mask for selecting rows with 'pH_H2O' values in the top 10 percentile
+mask = df['pH_H2O'] >= top_percentile
+
+# Create a GeoSeries from the index of the selected rows
+selected_index = df.loc[mask, 'index'].to_series()
+
+# Create a GeoSeries of points from the 'POINTID' column
+points_series = gpd.GeoSeries(geo_dataframe['POINTID'].values, crs=geo_dataframe.crs)
+
+# Create a GeoDataFrame with the selected points and their 'TH_LONG' column values
+points_df = gpd.GeoDataFrame(
+    {'TH_LONG': geo_dataframe.loc[selected_index, 'TH_LONG'].values},
+    geometry=points_series,
+    crs=geo_dataframe.crs
+)
+
+# Plot the Europe shapefile and the selected points
+fig, ax = plt.subplots(figsize=(10, 10))
+europe_df.plot(ax=ax, color='none', edgecolor='black')
+points_df.plot(ax=ax, marker='.', color='red')
+
+# Save the plot as png
+plt.savefig('plot.png')

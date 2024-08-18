@@ -1,0 +1,29 @@
+import pandas as pd
+import scipy.stats as stats
+
+# Load the dataset
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Calculate the z-scores for 'EC'
+df['EC_zscore'] = stats.zscore(df['EC'], nan_policy='omit')
+
+# Identify outliers (z-score > 3 or < -3)
+outliers = df[(df['EC_zscore'] > 3) | (df['EC_zscore'] < -3)]
+
+# Print the outliers
+print(outliers[['POINTID', 'EC', 'EC_zscore']])
+
+
+
+#        POINTID      EC  EC_zscore
+#58     47502772  145.60   4.977129
+#175    46222728  123.50   4.112474
+#256    47482734   96.50   3.056107
+#284    47722698  172.60   6.033496
+#388    45662730  129.30   4.339397
+#...         ...     ...        ...
+#18942  35403664  109.48   3.563945
+#18958  31823598  119.76   3.966147
+#18976  32583640   95.80   3.028720
+#18978  32603672   98.51   3.134748
+#18983  33023682  141.70   4.824543

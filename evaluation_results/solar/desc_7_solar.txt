@@ -1,0 +1,22 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load the CSV file
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Select columns for correlation
+cols = ['EC', 'pH_CaCl2', 'pH_H2O', 'OC', 'CaCO3', 'P', 'N', 'K']
+
+# Calculate correlation matrix
+corr = df[cols].corr()
+
+# Visualize correlation matrix as heatmap
+sns.heatmap(corr, cmap='RdYlGn', cbar_kws={"label": "Pearson Correlation"})
+plt.savefig('correlation_matrix.png')
+
+
+------------------REZULTAT!!!------------------

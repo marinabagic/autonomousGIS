@@ -1,0 +1,14 @@
+
+import pandas as pd
+import numpy as np
+
+data = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+oc = data['OC']
+mean_oc = np.mean(oc)
+std_dev = np.std(oc)
+n = len(oc)
+t = np.abs(np.tanh(np.sqrt(n-1) * (mean_oc - 1.96 * std_dev / np.sqrt(n))))
+interval = (mean_oc - t, mean_oc + t)
+
+print(interval)

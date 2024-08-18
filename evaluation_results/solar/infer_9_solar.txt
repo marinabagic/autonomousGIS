@@ -1,0 +1,18 @@
+import pandas as pd
+import scipy.stats as t
+import numpy as np
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+mean_k = df['K'].mean()
+std_k = df['K'].std()
+t_value = (mean_k - 0.02) / (std_k / np.sqrt(len(df)))
+t_stat, prob = t.ttest_1samp(df['K'], 0.02)
+print(f'Mean K content: {mean_k:.3f}%')
+print(f'Standard deviation: {std_k:.3f}%')
+print(f't-value: {t_value:.3f}')
+print(f't-statistic: {t_stat:.3f}')
+print(f'Probability: {prob:.3f}')
+if prob > 0.05:
+    print("There is not enough evidence to conclude that the mean K content is significantly different from 2%.")
+else:
+    print("There is sufficient evidence to conclude that the mean K content is significantly different from 2%.")

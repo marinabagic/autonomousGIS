@@ -1,0 +1,22 @@
+import pandas as pd
+from scipy.stats import chi2_contingency
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Convert'LC0_Desc' column to categorical
+df['LC0_Desc'] = pd.Categorical(df['LC0_Desc'])
+
+# Group data by LC0_Desc and pH_H2O
+grouped = df.groupby(['LC0_Desc','pH_H2O'])
+
+# Count the occurrences of each pH_H2O for each LC0_Desc
+counts = grouped.size()
+
+# Convert counts to a 2D array for chi square calculation
+table = counts.unstack(fill_value=0)
+
+# Calculate chi square statistic and p-value
+statistic, pvalue, dof, expected = chi2_contingency(table)
+
+# Print the result
+print(f"Chi square statistic: {statistic:.2f}, p-value: {pvalue:.2f}")

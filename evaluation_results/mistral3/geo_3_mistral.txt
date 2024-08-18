@@ -1,0 +1,12 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+result = df[df['LC0_Desc'] == 'Woodland'] & (df['pH_CaCl2'] < 6)
+result = gpd.GeoDataFrame(result, geometry=result.geometry)
+
+result = result.sjoin(europe, how='inner')
+result.plot(marker='.', figsize=(10,10))
+plt.savefig('woodland_ph_less_than_6_in_Europe.png')

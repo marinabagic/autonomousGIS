@@ -1,0 +1,39 @@
+
+import pandas as pd
+import geopandas as gpd
+from shapely.geometry import Point
+import matplotlib.pyplot as plt
+
+# Load GeoDataFrame
+geo_df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Load Europe Shapefile
+europe_df = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Merge GeoDataFrame and Europe Shapefile based on common coordinates
+merged_df = gpd.sjoin(geo_df, europe_df, how='inner', op='within')
+
+# Convert 'LC0_Desc' column to a dictionary for easier color mapping
+lc0_dict = {lc: i for i, lc in enumerate(merged_df['LC0_Desc'].unique())}
+
+# Define a function to create a color map based on the 'LC0_Desc' column
+def get_color(lc):
+    return lc0_dict[lc]
+
+# Create a new column with the color map
+merged_df['color'] = merged_df['LC0_Desc'].apply(get_color)
+
+# Plot Europe Shapefile with the merged data
+fig, ax = plt.subplots(figsize=(10, 10))
+
+# Set marker for the points
+ax.scatter(merged_df.geometry.x, merged_df.geometry.y, marker='.', c=merged_df['color'], s=100)
+
+# Plot Europe Shapefile
+europe_df.geometry.plot(ax=ax, facecolor='none', edgecolor='black')
+
+# Save the map as a png
+plt.savefig('map.png')
+
+# Display the map
+plt.show()

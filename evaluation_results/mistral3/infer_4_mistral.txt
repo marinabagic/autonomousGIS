@@ -1,0 +1,19 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+group1 = df[df['LC0_Desc'] == 'Cropland']['K']
+group2 = df[df['LC0_Desc'] == 'Grassland']['K']
+
+from scipy import stats
+
+t_stat, p_val = stats.ttest_ind(group1, group2)
+
+print(t_stat)
+
+
+------------------REZULTAT!!!------------------
+

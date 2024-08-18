@@ -1,0 +1,13 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+
+df = pd.read_csv("/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv")
+avg_k = df[(df['EC'] > 10)]['K'].mean()
+print(avg_k)
+
+
+------------------REZULTAT!!!------------------
+
+251.37874575467976

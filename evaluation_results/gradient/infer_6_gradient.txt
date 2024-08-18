@@ -1,0 +1,29 @@
+
+import pandas as pd
+import numpy as np
+import scipy
+
+# Load the dataset
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Calculate the mean OC content
+mean_oc = df['OC'].mean()
+
+# Calculate the standard deviation of OC content
+std_oc = df['OC'].std()
+
+# Calculate the standard error of the mean OC content
+n = len(df)
+se = std_oc / np.sqrt(n)
+
+# Calculate the critical value for a two-tailed t-distribution with n-1 degrees of freedom and 0.05 significance level
+t_critical = np.abs(scipy.stats.t.ppf(0.975, n-1))
+
+# Calculate the margin of error for the 95% confidence interval
+margin_of_error = t_critical * se
+
+# Calculate the lower and upper bounds of the confidence interval
+lower_bound = mean_oc - margin_of_error
+upper_bound = mean_oc + margin_of_error
+
+print(f"The 95% confidence interval for the mean OC content is ({lower_bound}, {upper_bound}).")

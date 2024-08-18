@@ -1,0 +1,96 @@
+import geopandas as gpd
+import pandas as pd
+import io
+import matplotlib.pyplot as plt
+import contextily as ctx
+
+def load_haz_waste_shp(haz_waste_shp_url):
+    """
+    Load hazardous waste facility shapefile
+
+    Parameters:
+    haz_waste_shp_url (str): Hazardous waste facility shapefile URL
+
+    Returns:
+    gpd.GeoDataFrame: Hazardous waste facility GeoDataFrame
+    """
+    haz_waste_gdf = gpd.read_file(haz_waste_shp_url)
+    return haz_waste_gdf
+
+
+def load_tract_shp(tract_shp_url="https://github.com/gladcolor/LLM-Geo/raw/master/overlay_analysis/tract_37_EPSG4326.zip"):
+    """
+    Load the NC tract boundary shapefile.
+
+    Parameters:
+    -----------
+    tract_shp_url: str
+        The URL of the NC tract boundary shapefile.
+
+    Returns:
+    --------
+    tract_gdf: geopandas.GeoDataFrame
+        The NC tract boundary GeoDataFrame.
+    """
+    tract_gdf = gpd.read_file(tract_shp_url)
+    return tract_gdf
+
+
+def load_tract_pop_csv(tract_pop_csv_url="https://github.com/gladcolor/LLM-Geo/raw/master/overlay_analysis/NC_tract_population.csv"):
+    tract_pop_df = pd.read_csv(tract_pop_csv_url)
+    return tract_pop_df
+
+
+def join_tract_haz_waste_gdf(haz_waste_gdf, tract_gdf):
+    return gpd.sjoin(haz_waste_gdf, tract_gdf, how='inner', op='intersects')
+
+
+def join_tract_pop_haz_waste_df(tract_pop_df, tract_haz_waste_gdf):
+    tract_haz_waste_df = tract_haz_waste_gdf[['GEOID', 'geometry']]
+    joined_df = tract_pop_df.merge(tract_haz_waste_df, on='GEOID')
+    return joined_df
+
+
+def calculate_tract_pop_haz_waste_sum(tract_pop_haz_waste_df):
+    total_population = tract_pop_haz_waste_df['TotalPopulation'].sum()
+    return total_population
+
+
+def generate_tract_pop_map(tract_gdf, tract_pop_df):
+    tract_gdf = tract_gdf.to_crs(epsg=3857)
+    tract_gdf = tract_gdf.merge(tract_pop_df, on='GEOID')
+    fig, ax = plt.subplots(figsize=(15, 10))
+    tract_gdf.plot(ax=ax, column='TotalPopulation', legend=True)
+    ax.set_title('NC Tract Population Choropleth Map')
+    ctx.add_basemap(ax, source=ctx.providers.CartoDB.Positron)
+    return ax
+
+
+def highlight_tract_pop_map_haz_waste(tract_pop_map, tract_haz_waste_gdf):
+    tract_haz_waste_gdf = tract_haz_waste_gdf.to_crs(epsg=3857)
+    tract_haz_waste_gdf.plot(ax=tract_pop_map, color='red')
+    return tract_pop_map
+
+
+def assembely_solution():
+    haz_waste_shp_url = 'https://github.com/gladcolor/LLM-Geo/raw/master/overlay_analysis/HW_Sites_EPSG4326.zip'
+    haz_waste_gdf = load_haz_waste_shp(haz_waste_shp_url)
+    tract_shp_url = 'https://github.com/gladcolor/LLM-Geo/raw/master/overlay_analysis/tract_37_EPSG4326.zip'
+    tract_gdf = load_tract_shp(tract_shp_url)
+    tract_pop_csv_url = 'https://github.com/gladcolor/LLM-Geo/raw/master/overlay_analysis/NC_tract_population.csv'
+    tract_pop_df = load_tract_pop_csv(tract_pop_csv_url)
+    tract_haz_waste_gdf = join_tract_haz_waste_gdf(haz_waste_gdf, tract_gdf)
+    tract_pop_haz_waste_df = join_tract_pop_haz_waste_df(tract_pop_df, tract_haz_waste_gdf)
+    total_population = calculate_tract_pop_haz_waste_sum(tract_pop_haz_waste_df)
+    print(f"Total population living in tracts containing hazardous waste facilities: {total_population}")
+    tract_pop_map = generate_tract_pop_map(tract_gdf, tract_pop_df)
+    highlight_tract_pop_map_haz_waste(tract_pop_map, tract_haz_waste_gdf)
+    plt.savefig('tract_pop_map_haz_waste.png')
+
+
+if __name__ == '__main__':
+    assembely_solution()
+
+
+
+# Total population living in tracts containing hazardous waste facilities: 13075527

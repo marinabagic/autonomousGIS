@@ -1,0 +1,32 @@
+import geopandas as gpd
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormaper
+
+# Load the GeoDataFrame
+geo_dataframe = gpd.read_file("file_path_to/geo_dataframe.shp")
+
+# Load the Europe shapefile
+europe_coastline = gpd.read_file("file_path_to/Europe_coastline_shapefile/Europe_coastline.shp")
+
+# Extract the 'pH_CaCl2' column from the GeoDataFrame
+pH_CaCl2 = geo_dataframe['pH_CaCl2']
+
+# Create a colormap for the heatmap
+cmap = ListedColormap(['yellow', 'orange','red', 'purple'])
+
+# Plot the Europe shapefile
+fig, ax = plt.subplots(figsize=(10, 10))
+europe_coastline.plot(ax=ax, marker='.')
+
+# Create a GeDataFrame with the points and the 'pH_CaCl2' values
+points = gpd.GeoDataFrame(pH_CaCl2, geometry=geo_dataframe['POINTID'])
+
+# Perform a join between the points and the Europe shapefile
+joined = points.sjoin(europe_coastline)
+
+# Create a heatmap using the joined GeoDataFrame
+joined.set_index('index')['pH_CaCl2'].plot(kind='hexbin', cmap=cmap, ax=ax)
+
+# Save the plot as a PNG
+plt.savefig('plot.png')

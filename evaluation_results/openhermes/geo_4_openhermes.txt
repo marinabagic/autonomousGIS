@@ -1,0 +1,30 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from mpl_toolkits.basemap import Basemap
+
+# Load the GeoDataFrame
+geo_df = pd.read_csv('/home/fkriskov/diplomski/datasets/geo_dataframe.shp', delimiter='\t')
+
+# Load the Europe shapefile
+europe_df = pd.read_shapefile('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Perform KMeans clustering on TH_LAT and TH_LONG data
+from sklearn.cluster import KMeans
+kmeans = KMeans(n_clusters=3, random_state=0).fit(geo_df[['TH_LAT', 'TH_LONG']])
+
+# Add cluster labels to the GeoDataFrame
+geo_df['cluster'] = kmeans.labels_
+
+# Plot the Europe shapefile
+m = Basemap(projection='mill', resolution='i')
+m.drawmapboundary(fill_color='gray')
+m.fillcontinents(color='white')
+m.drawcoastlines()
+
+# Plot the clusters on the map
+for i in range(3):
+    cluster_df = geo_df[geo_df['cluster'] == i]
+    m.scatter(cluster_df['TH_LONG'], cluster_df['TH_LAT'], marker='.', label=f'Cluster {i}')
+
+plt.legend()
+plt.savefig('map.png')

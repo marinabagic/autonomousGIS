@@ -1,0 +1,27 @@
+
+import pandas as pd
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load the GeoDataFrame
+geo_dataframe = gpd.read_file('path/to/geo_dataframe.shp')
+
+# Load the Europe shapefile
+europe_shp = gpd.read_file('path/to/Europe_coastline_shp/Europe_coastline.shp')
+
+# Filter the GeoDataFrame based on the condition
+filtered_geo_dataframe = geo_dataframe[geo_dataframe['pH_H2O'] > 5]
+
+# Create a new GeoDataFrame with the filtered points and the Europe shapefile
+plot_df = gpd.MultiIndex.from_arrays([filtered_geo_dataframe['pH_H2O'].values, europe_shp['geometry']]).to_frame()
+plot_df.columns = ['pH_H2O', 'geometry']
+
+# Set the marker and figure size
+plt.figure(figsize=(10, 10))
+
+# Plot the points based on the pH_H2O value
+plot_df.loc[plot_df['pH_H2O'] > 5, 'geometry'].plot(marker='.', color='b', markersize=5)
+plot_df.loc[plot_df['pH_H2O'] < 5, 'geometry'].plot(marker='.', color='r', markersize=5)
+
+# Save the plot as an image
+plt.savefig('plot.png')

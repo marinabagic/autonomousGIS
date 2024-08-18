@@ -1,0 +1,22 @@
+import geopandas as gpd
+
+# Load Europe shapefile
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Load GeoDataFrame with LC0_Desc and pH
+df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Filter rows with LC0_Desc='Woodland' and pH<6
+filtered = df[(df['LC0_Desc'] == 'Woodland') & (df['pH_CaCl2'] < 6)]
+
+# Set CRS of filtered GeoDataFrame to match Europe shapefile
+filtered.set_crs('EPSG:4326')
+
+# Join filtered rows with Europe shapefile
+result = filtered.join(europe)
+
+# Plot result
+result.plot(column='geometry', figsize=(10,10), marker='.')
+
+# Save plot as png
+result.plot(column='geometry', figsize=(10,10), marker='.', output_file='result.png')

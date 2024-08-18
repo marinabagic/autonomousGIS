@@ -1,0 +1,9 @@
+import pandas as pd
+import scipy.stats as stats
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+group1 = df[df['LC0_Desc'] == 'Grassland']
+group2 = df[df['LC0_Desc'] == 'Cropland']
+result = group1.K.mean() - group2.K.mean()
+stat, p_value = stats.ttest_ind(group1.K, group2.K)
+print(f'T-test result: t={stat:.3f}, p={p_value:.3f}')

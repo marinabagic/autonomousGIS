@@ -1,0 +1,30 @@
+import geopandas as gpd
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the Europe shapefile
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Load the GeoDataFrame with the 'K' values
+k_data = pd.read_csv('/home/fkriskov/diplomski/datasets/geo_dataframe.shp', header=None).dropna()
+k_data.columns = ['Depth', 'POINTID', 'K']
+k_data = gpd.GeoDataFrame(k_data, crs='epsg:4326')
+
+# Calculate the median K value for all locations
+median_k = k_data['K'].median()
+
+# Filter the K data to only include locations where K is above its median
+k_above_median = k_data[k_data['K'] > median_k]
+
+# Merge the K data with the Europe shapefile to create a new GeoDataFrame
+europe_with_k = gpd.sjoin(europe, k_above_median, how='inner', op='within')
+
+# Set the marker style and figure size
+marker = '.'
+figsize = (10, 10)
+
+# Plot the Europe shapefile with markers for locations with K above its median
+europe_with_k.plot(column='K', marker=marker, figsize=figsize)
+
+# Save the plot as a PNG file
+plt.savefig('map.png')

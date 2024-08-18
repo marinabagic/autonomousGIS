@@ -1,0 +1,13 @@
+import pandas as pd
+from scipy.stats import f_oneway
+
+file_path = '/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv'
+df = pd.read_csv(file_path)
+
+austria_N = df[df['NUTS_0'] == 'AT']['N']
+france_N = df[df['NUTS_0'] == 'FR']['N']
+
+anova_result = f_oneway(austria_N.dropna(), france_N.dropna())
+
+print("F-statistic:", anova_result.statistic)
+print("p-value:", anova_result.pvalue)

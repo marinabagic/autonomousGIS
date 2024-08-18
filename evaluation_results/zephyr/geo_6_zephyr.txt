@@ -1,0 +1,22 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load Europe coastline shapefile
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Load GeoDataFrame with 'pH_CaCl2' values
+ph_cacl2 = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')[['POINTID', 'pH_CaCl2']]
+
+# Merge Europe coastline and 'pH_CaCl2' values
+result = ph_cacl2.merge(europe, left_on='POINTID', right_index=True)
+
+# Convert values to float and rename column
+result['pH_CaCl2'] = result['pH_CaCl2'].astype(float)
+result.rename(columns={'pH_CaCl2': 'value'}, inplace=True)
+
+# Create a heatmap of the 'value' column
+fig, ax = plt.subplots(figsize=(10,10))
+result.plot(column='value', cmap='coolwarm', ax=ax)
+
+# Save the plot as a png
+plt.savefig('heatmap.png')

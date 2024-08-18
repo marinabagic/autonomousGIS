@@ -1,0 +1,21 @@
+------------------FIXED!!!------------------
+
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load the CSV data
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Select the 'K' column
+k_column = df['K']
+
+# Plot the distribution of 'K' with KDE overlay
+sns.kdeplot(k_column, shade=True)
+
+# Save the plot as a PNG
+plt.savefig('kde_plot.png')
+
+
+------------------REZULTAT!!!------------------

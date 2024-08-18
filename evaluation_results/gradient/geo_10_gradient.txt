@@ -1,0 +1,15 @@
+
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load the GeoDataFrame
+gdf = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Filter the points where LC0_Desc is 'Grassland' or 'Woodland' and OC is greater than 20
+filtered_gdf = gdf[(gdf['LC0_Desc'] == 'Grassland') | (gdf['LC0_Desc'] == 'Woodland') & (gdf['OC'] > 20)]
+
+# Plot the filtered GeoDataFrame
+filtered_gdf.plot()
+
+# Save the plot as a png
+plt.savefig('plot.png')

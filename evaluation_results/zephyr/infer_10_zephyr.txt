@@ -1,0 +1,16 @@
+
+import pandas as pd
+import statsmodels.formula.api as smf
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+model = smf.ols('K ~ P', data=df)
+results = model.fit()
+
+print(results.pvalues['P'])
+print(results.conf_int(alpha=0.05))
+
+if results.pvalues['P'][0] > 0.05:
+    print("The correlation is not statistically significant.")
+else:
+    print("The correlation is statistically significant.")

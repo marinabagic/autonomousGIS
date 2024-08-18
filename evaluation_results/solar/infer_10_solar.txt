@@ -1,0 +1,11 @@
+
+import pandas as pd
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+corr = df[['P', 'K']].corr()
+print(round(corr[0][1], 4))
+stat, p = stats.pearsonr(df['P'], df['K])
+print(round(p, 4))
+if p < 0.05:
+    print('The correlation is statistically significant')
+else:
+    print('The correlation is not statistically significant')

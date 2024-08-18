@@ -1,0 +1,17 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load Europe shapefile
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Load GeoDataFrame
+df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Merge Europe shapefile with GeoDataFrame
+merged_df = gpd.sjoin(df, europe, how='inner')
+
+# Plot heatmap of 'pH_CaCl2' in Europe
+merged_df.plot(column='pH_CaCl2', cmap='coolwarm', legend=True)
+
+# Save plot as png
+plt.savefig('heatmap.png')

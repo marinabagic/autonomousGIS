@@ -1,0 +1,21 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+import scipy.stats as stats
+
+# Load the dataset
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Filter the rows where'species' is either 'Cropland' or 'Grassland'
+df_filtered = df[df['LC0_Desc'].isin(['Cropland', 'Grassland'])]
+
+# Perform a t-test to compare'sepal_length' between 'Cropland' and 'Grassland'
+t_stat, p_val = stats.ttest_ind(df_filtered[df_filtered['LC0_Desc'] == 'Cropland']['K'], df_filtered[df_filtered['LC0_Desc'] == 'Grassland']['K'])
+
+# Print the result
+print(t_stat, p_val)
+
+
+------------------REZULTAT!!!------------------
+

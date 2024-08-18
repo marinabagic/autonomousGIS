@@ -1,0 +1,19 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+import scipy.stats as stats
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+a = df[df['LC0_Desc'] == 'Cropland']['K'].values.reshape(-1, 1)
+b = df[df['LC0_Desc'] == 'Grassland']['K'].values.reshape(-1, 1)
+
+t_stat, p_val = stats.ttest_ind(a, b)
+
+print(t_stat, p_val)
+
+
+------------------REZULTAT!!!------------------
+
+[-15.38619582] [6.89254606e-28]

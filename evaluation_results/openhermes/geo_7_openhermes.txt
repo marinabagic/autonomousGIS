@@ -1,0 +1,27 @@
+import geopandas as gpd
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the Europe shapefile
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Load the GeoDataFrame
+geo_dataframe = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Convert 'TH_LONG' to float
+geo_dataframe['TH_LONG'] = pd.to_numeric(geo_dataframe['TH_LONG'], errors='coerce')
+
+# Convert 'TH_LAT' to float
+geo_dataframe['TH_LAT'] = pd.to_numeric(geo_dataframe['TH_LAT'], errors='coerce')
+
+# Convert 'pH_H2O' to float
+geo_dataframe['pH_H2O'] = pd.to_numeric(geo_dataframe['pH_H2O'], errors='coerce')
+
+# Filter the GeoDataFrame to only include points in Europe
+europe_points = geo_dataframe[geo_dataframe['TH_LONG'].isin(europe.geometry.apply(lambda x: x.centroid.coords[0][0]))]
+
+# Filter the points where 'pH_H2O' is in the top 10 percentile
+top_10_percentile = europe_points.sort_values('pH_H2O', ascending=False).head(len(europe_points) * 0.1)
+
+# Plot the Europe shapefile
+europe.plot(color='white', edgecolor='black')

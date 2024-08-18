@@ -1,0 +1,10 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+corr_matrix = df.corr()
+
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm')
+plt.title('Correlation Matrix')
+plt.show()

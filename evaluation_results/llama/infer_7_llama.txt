@@ -1,0 +1,33 @@
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import norm
+
+# Load the dataset
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Convert pH_H2O to numeric
+df['pH_H2O'] = pd.to_numeric(df['pH_H2O'])
+
+# Calculate the mean of pH_H2O
+mean_pH_H2O = df['pH_H2O'].mean()
+
+# Simulate the sampling distribution of the mean for sample size 30
+sample_sizes = [30]
+num_samples = 10000
+sample_means = np.zeros((len(sample_sizes), num_samples))
+for i, sample_size in enumerate(sample_sizes):
+    for j in range(num_samples):
+        sample = df['pH_H2O'].sample(sample_size)
+        sample_means[i, j] = sample.mean()
+
+# Plot the sampling distribution
+plt.hist(sample_means[0], bins=50, density=True, alpha=0.5, label='Sampling Distribution')
+x = np.linspace(mean_pH_H2O - 3 * np.std(sample_means[0]) / np.sqrt(sample_size), mean_pH_H2O + 3 * np.std(sample_means[0]) / np.sqrt(sample_size), 100)
+plt.plot(x, norm.pdf(x, loc=mean_pH_H2O, scale=np.std(sample_means[0]) / np.sqrt(sample_size)), label='Normal Distribution')
+plt.legend()
+plt.title('Sampling Distribution of the Mean pH_H2O')
+plt.xlabel('pH_H2O')
+plt.ylabel('Frequency')
+plt.savefig('distribution.png')

@@ -1,0 +1,16 @@
+
+import pandas as pd
+import scipy.stats as stats
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+corr, _ = stats.pearsonr(df['P'], df['K'])
+p_value = 2 * (1 - stats.norm.cdf(abs(corr)))
+
+print(f"Pearson correlation: {corr:.2f}")
+print(f"p-value: {p_value:.2e}")
+
+if p_value < 0.05:
+    print("The correlation is statistically significant.")
+else:
+    print("The correlation is not statistically significant.")

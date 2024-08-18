@@ -1,0 +1,23 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Load the CSV file
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Define the sample size
+n = 30
+
+# Simulate the sampling distribution of the mean 'pH_H2O' for sample sizes of 30
+sample_means = []
+for I in range(1000):
+    sample = np.random.choice(df['pH_H2O'], n, replace=False)
+    sample_mean = np.mean(sample)
+    sample_means.append(sample_mean)
+
+# Plot the distribution
+plt.hist(sample_means, bins=20, alpha=0.5, label='Sampling Distribution')
+plt.xlabel('Mean')
+plt.ylabel('Frequency')
+plt.title('Sampling Distribution of the Mean pH_H2O for Sample Sizes of 30')
+plt.savefig('distribution.png')

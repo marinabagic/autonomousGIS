@@ -1,0 +1,21 @@
+
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+geo_dataframe = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+europe_shapefile = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+soil_types = geo_dataframe['LC0_Desc'].unique()
+
+def create_map(soil_types, europe_shapefile):
+    colors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange', 'brown', 'pink', 'gray', 'black', 'white']
+    fig, ax = plt.subplots(figsize=(10, 10))
+    for soil_type, color in zip(soil_types, colors):
+        soil_type_data = geo_dataframe[geo_dataframe['LC0_Desc'] == soil_type]
+        soil_type_data.plot(ax=ax,marker='.',markersize=5, color=color, label=soil_type)
+    europe_shapefile.plot(color='lightgray', edgecolor='black', ax=plt.gca())
+    plt.legend()
+    plt.title('Distribution of Soil Types across Europe')
+    plt.savefig('map.png')
+
+create_map(soil_types, europe_shapefile)

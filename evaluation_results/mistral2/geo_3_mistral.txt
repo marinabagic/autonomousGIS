@@ -1,0 +1,12 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+gdf_europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+gdf = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+mask = (gdf['LC0_Desc'] == 'Grassland') & (gdf['pH_H2O'] == 6)
+gdf_plot = gdf[mask]
+
+gdf_europe.plot(ax=plt.gca(), edgecolor='black')
+gdf_plot.plot(ax=plt.gca(), marker='o', markersize=5, color='red')
+plt.savefig('plot.png')

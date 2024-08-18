@@ -1,0 +1,25 @@
+import geopandas as gpd
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load GeoDataFrame and Europe shapefile
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+data = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Define the pH_H2O range and number of bins
+ph_range = (data['pH_H2O'].min(), data['pH_H2O'].max())
+nbins = 9
+
+# Create a cut object to divide the pH_H2O range into bins
+cutter = pd.cut(data['pH_H2O'], bins=nbins, labels=False, retbins=True)
+
+# Join the cutter object with the data and Europe shapefile
+result = gpd.GeoDataFrame(data.join(cutter.str.get_dummies()), crs="EPSG:4326").join(europe)
+
+# Plot Europe shapefile and filtered points with markers
+fig, ax = plt.subplots(figsize=(10,10))
+result.plot(column="POINTID", marker=".", ax=ax)
+europe.plot(ax=ax)
+
+# Save plot as png
+plt.savefig('result.png')

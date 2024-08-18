@@ -1,0 +1,14 @@
+import pandas as pd
+import scipy.stats as stats
+from scipy.stats import chi2_contingency
+
+# Load the CSV file
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Calculate contingency table
+contingency_table = pd.crosstab(df['LC0_Desc'], df['pH_H2O'], margins=True)
+
+# Perform chi-squared test
+chi2, p, dof, expected = chi2_contingency(contingency_table)
+
+print(chi2)

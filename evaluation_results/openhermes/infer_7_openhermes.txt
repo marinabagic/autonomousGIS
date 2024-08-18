@@ -1,0 +1,30 @@
+
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load the data
+df = pd.read_csv("/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv")
+
+# Simulate the sampling distribution of the mean 'pH_H2O' for sample sizes of 30
+n_samples = 1000
+sample_size = 30
+pH_H2O = df['pH_H2O']
+sample_means = np.random.choice(pH_H2O, size=(n_samples, sample_size), replace=True)
+
+# Calculate the mean and standard deviation of the sample means
+mean_sample_means = np.mean(sample_means, axis=0)
+std_sample_means = np.std(sample_means, axis=0)
+
+# Create a normal distribution with the same mean and standard deviation as the sample means
+normal_dist = np.random.normal(mean_sample_means, std_sample_means, n_samples)
+
+# Plot the histogram of the sample means and the normal distribution
+sns.kdeplot(normal_dist, shade=True, color="gray")
+sns.histplot(mean_sample_means, kde=True, color="red", alpha=0.5)
+plt.title("Sampling Distribution of Mean 'pH_H2O' vs. Normal Distribution (n = 30)")
+plt.xlabel("Mean 'pH_H2O'")
+plt.ylabel("Density")
+plt.savefig("plot.png")
+plt.show()

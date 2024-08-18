@@ -1,0 +1,38 @@
+------------------FIXED!!!------------------
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
+
+# Load the CSV file
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Convert the 'K' column to numeric
+df['K'] = pd.to_numeric(df['K'], errors='coerce')
+
+# Remove any NaN values from the 'K' column
+df = df.dropna(subset=['K'])
+
+# Create a KDE object
+kde = gaussian_kde(df['K'])
+
+# Create a range of x values
+x = pd.Series(range(int(df['K'].min()), int(df['K'].max()) + 1))
+
+# Evaluate the KDE at the x values
+y = kde(x)
+
+# Create the plot
+plt.figure(figsize=(10, 6))
+plt.plot(x, y, color='b', label='KDE')
+plt.hist(df['K'], bins=50, alpha=0.5, label='Histogram')
+plt.xlabel('K')
+plt.ylabel('Frequency')
+plt.title('Distribution of K')
+plt.legend()
+plt.savefig('plot.png')
+plt.show()
+
+
+------------------REZULTAT!!!------------------

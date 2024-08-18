@@ -1,0 +1,9 @@
+
+import pandas as pd
+import scipy.stats as stats
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+chi2, pvalue, dof, expected = stats.chi2_contingency(pd.get_dummies(df['LC0_Desc']).values, pd.get_dummies(df['pH_H2O'] > 5).values)
+
+print(chi2, pvalue)

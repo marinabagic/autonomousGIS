@@ -1,0 +1,23 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load the GeoDataFrame
+geo_df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Load the Europe shapefile
+europe_df = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Plot the Europe shapefile
+europe_df.plot()
+
+# Create a new column in the GeoDataFrame with the point values
+geo_df['pH_CaCl2_point'] = geo_df['pH_CaCl2']
+
+# Plot the points on the Europe shapefile
+points, _ = geo_df.plot(column='pH_CaCl2_point', marker='.', figsize=(10, 10), alpha=0.5)
+
+# Create a colorbar
+cbar = plt.colorbar(points.collections[0])
+
+# Save the plot as a PNG file
+plt.savefig('plot.png')

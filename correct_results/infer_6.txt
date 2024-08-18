@@ -1,0 +1,19 @@
+import pandas as pd
+import scipy.stats as stats
+import numpy as np
+
+# Load the dataset
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Calculate the mean and standard error of 'OC'
+mean_oc = df['OC'].mean()
+sem_oc = stats.sem(df['OC'], nan_policy='omit')
+
+# Calculate the 95% confidence interval
+confidence_interval = stats.t.interval(0.95, len(df['OC'].dropna()) - 1, loc=mean_oc, scale=sem_oc)
+
+# Print the confidence interval
+print("95% Confidence Interval for mean 'OC':", confidence_interval)
+
+
+# 95% Confidence Interval for mean 'OC': (46.356662130276014, 48.67837263584283)

@@ -1,0 +1,20 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/IRIS flower dataset.csv')
+
+X = df[['sepal_width']].values
+y = df['petal_width'].values
+
+model = LinearRegression()
+model.fit(X, y)
+
+print(f"Intercept: {model.intercept_}, Coefficient: {model.coef_[0]}")
+
+sns.scatterplot(x='sepal_width', y='petal_width', data=df)
+plt.plot(df['sepal_width'], model.predict(X), color='red')
+plt.title('Linear Regression: Sepal Width vs Petal Width')
+plt.savefig('linreg.png')

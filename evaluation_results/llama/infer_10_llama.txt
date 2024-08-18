@@ -1,0 +1,9 @@
+
+import pandas as pd
+import scipy.stats as stats
+
+data = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+correlation_coefficient, p_value = stats.pearsonr(data['P'], data['K'])
+
+print(p_value)

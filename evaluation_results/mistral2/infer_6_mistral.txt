@@ -1,0 +1,13 @@
+
+import numpy as np
+import pandas as pd
+
+data = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+oc_values = data['OC'].values
+n = len(oc_values)
+mean = np.mean(oc_values)
+std_dev = np.std(oc_values)
+confidence_interval = np.percentile(oc_values, [2.5, 97.5])
+lower_bound = confidence_interval[0]
+upper_bound = confidence_interval[1]
+print(f'Mean OC: {mean}, 95% Confidence Interval: [{lower_bound}, {upper_bound}]')

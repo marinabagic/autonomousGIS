@@ -1,0 +1,10 @@
+
+import pandas as pd
+import numpy as np
+from scipy.stats import chi2_contingency
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+contingency_table = pd.crosstab(df['LC0_Desc'], df['pH_H2O'])
+chi2, p, dof, expected = chi2_contingency(contingency_table)
+print(f'Chi-square test statistic: {chi2}')
+print(f'p-value: {p}')

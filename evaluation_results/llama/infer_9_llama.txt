@@ -1,0 +1,10 @@
+
+import pandas as pd
+from scipy.stats import ttest_ind
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+k_mean, _ = df['K'].mean(), df['K'].std()
+t_stat, p_val = ttest_ind(df['K'], [2], equal_var=False)
+
+print(t_stat, p_val)

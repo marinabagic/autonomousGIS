@@ -1,0 +1,14 @@
+
+import pandas as pd
+import numpy as np
+import scipy.stats as stats
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+oc_values = df['OC'].values
+n, mean_oc, var_oc = np.size(oc_values), np.mean(oc_values), np.var(oc_values)
+std_error = np.sqrt(var_oc / n)
+confidence_level = 0.95
+t_value = stats.t.ppf(confidence_level / 2, n-1)
+lower_bound = mean_oc - t_value * std_error
+upper_bound = mean_oc + t_value * std_error
+print(f'95% confidence interval for mean "OC" content: [{lower_bound:.2f}, {upper_bound:.2f}]')

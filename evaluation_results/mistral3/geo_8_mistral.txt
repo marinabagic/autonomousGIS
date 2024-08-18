@@ -1,0 +1,14 @@
+
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+europe = gpd.read_shapefile('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+geo_dataframe = gpd.read_shapefile('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+merged = geo_dataframe.merge(europe, on='geometry', how='outer')
+
+merged['color'] = np.where(merged['pH_H2O'] > 5, 'blue', np.where(merged['pH_H2O'] < 5,'red', merged['pH_H2O']))
+
+fig, ax = plt.subplots(figsize=(10,10))
+merged.plot(ax=ax, marker='.', c=merged['color'])
+plt.savefig('europe_ph.png')

@@ -1,0 +1,26 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load the GeoDataFrame
+gdf = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Load the Europe shapefile
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Create a map with markers for points where 'pH_H2O' is in the top 10 percentile
+top_10_percentile = gdf['pH_H2O'].quantile(0.9)
+markers = gdf[gdf['pH_H2O'] > top_10_percentile]
+
+# Plot the map
+fig, ax = plt.subplots(figsize=(10,10))
+europe.plot(ax=ax, color='lightblue', edgecolor='black')
+markers.plot(ax=ax, marker='.', color='red')
+
+# Save the plot as a PNG
+plt.savefig('plot.png')
+
+
+------------------REZULTAT!!!------------------

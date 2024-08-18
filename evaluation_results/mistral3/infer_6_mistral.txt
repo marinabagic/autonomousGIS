@@ -1,0 +1,14 @@
+
+import numpy as np
+import pandas as pd
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+oc_values = df['OC'].to_numpy()
+n = len(oc_values)
+mean_oc = np.mean(oc_values)
+
+lower_ci = mean_oc - 1.96 * np.std(oc_values) / np.sqrt(n)
+upper_ci = mean_oc + 1.96 * np.std(oc_values) / np.sqrt(n)
+
+print(f'[{lower_ci:.4f}, {upper_ci:.4f}]')

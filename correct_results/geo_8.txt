@@ -1,0 +1,31 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load the GeoDataFrame of points
+gdf_points = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Load the Europe shapefile
+gdf_europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Identify clusters of points with 'pH_H2O' > 5 and 'pH_H2O' < 5
+high_ph = gdf_points[gdf_points['pH_H2O'] > 5]
+low_ph = gdf_points[gdf_points['pH_H2O'] < 5]
+
+# Plotting
+fig, ax = plt.subplots(figsize=(10, 10))
+
+# Plot Europe shapefile
+gdf_europe.plot(ax=ax, color='lightgrey', edgecolor='black')
+
+# Plot points with high pH_H2O
+high_ph.plot(ax=ax, marker='.', color='blue', markersize=5, label='pH_H2O > 5')
+
+# Plot points with low pH_H2O
+low_ph.plot(ax=ax, marker='.', color='red', markersize=5, label='pH_H2O < 5')
+
+# Add legend and title
+plt.legend()
+plt.title('Clusters of Points with pH_H2O > 5 and pH_H2O < 5 in Europe')
+
+# Save the plot as a PNG file
+plt.savefig('ph_h2o_clusters.png', dpi=300, bbox_inches='tight')

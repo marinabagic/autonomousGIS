@@ -1,0 +1,37 @@
+import pandas as pd
+import geopandas as gpd
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+
+# Read Europe shapefile
+Europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Read GeoDataFrame
+geo_df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Merge Europe shapefile and GeoDataFrame based on spatial intersection
+merged = gpd.sjoin(Europe, geo_df, op='intersects')
+
+# Extract TH_LAT and TH_LONG columns
+X = merged[['TH_LAT', 'TH_LONG']].values
+
+# Perform KMeans clustering
+kmeans = KMeans(n_clusters=3, random_state=0).fit(X)
+
+# Add cluster labels to GeoDataFrame
+merged['Cluster'] = kmeans.labels_
+
+# Plot Europe shapefile with clusters
+ax = plt.axes(projection=merged.crs)
+merged.plot(ax=ax, marker='.', alpha=0.5)
+
+# Plot clusters as different colors
+colors = ['r', 'g', 'b']
+for i in range(3):
+    cluster = merged[merged['Cluster'] == i]
+    ax.plot(cluster['TH_LONG'], cluster['TH_LAT'], color=colors[i], marker='o')
+
+plt.savefig('clusters.png')
+plt.show()
+
+# Print final result variable (empty)

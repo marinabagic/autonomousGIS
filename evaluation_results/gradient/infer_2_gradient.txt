@@ -1,0 +1,14 @@
+import pandas as pd
+import statsmodels.api as sm
+
+# Load the CSV file
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# Group the data by 'NUTS_0' and calculate the mean of 'pH_CaCl2'
+grouped_df = df.groupby('NUTS_0')['pH_CaCl2'].mean()
+
+# Perform ANOVA test on the grouped data
+anova_results = sm.stats.anova_lm(grouped_df)
+
+# Print the ANOVA results
+print(anova_results)

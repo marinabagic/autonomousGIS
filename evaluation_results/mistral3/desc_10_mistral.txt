@@ -1,0 +1,13 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/IRIS flower dataset.csv')
+result = df['petal_length'].max()
+species = df[df['petal_length'] == result]['species'].iloc[0]
+print(species)
+
+
+------------------REZULTAT!!!------------------
+
+Iris-virginica

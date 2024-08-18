@@ -1,0 +1,26 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load Europe shapefile
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Load GeoDataFrame
+gdf = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Merge the two shapefiles
+merged_gdf = gpd.sjoin(gdf, europe, how='left', op='intersects')
+
+# Calculate median value of 'K'
+median_k = merged_gdf['K'].median()
+
+# Filter locations where 'K' is above its median value
+filtered_gdf = merged_gdf[merged_gdf['K'] > median_k]
+
+# Plot the filtered GeoDataFrame with markers
+filtered_gdf.plot(figsize=(10,10))
+
+# Add markers to the plot
+filtered_gdf.plot.scatter(x='X', y='Y', c='K', cmap='viridis', alpha=0.5, s=50)
+
+# Save the plot as a PNG
+plt.savefig('filtered_gdf.png')

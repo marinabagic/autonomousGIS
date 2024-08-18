@@ -1,0 +1,19 @@
+import pandas as pd
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+gdf = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+top_10_percentile = gdf['K'].quantile(0.90)
+
+top_k_points = gdf[gdf['K'] > top_10_percentile]
+
+europe_shapefile = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+fig, ax = plt.subplots(figsize=(10, 10))
+europe_shapefile.plot(ax=ax, color='gray', edgecolor='black')
+
+top_k_points.plot(ax=ax, marker='.', color='red', markersize=5)
+
+plt.title('Top 10 Percentile of K Values in Europe')
+plt.savefig('plot.png')

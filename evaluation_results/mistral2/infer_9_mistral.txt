@@ -1,0 +1,18 @@
+
+import pandas as pd
+import numpy as np
+
+data = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+mean_k = np.mean(data['K'])
+hypothetical_mean = 0.02
+t_statistic, p_value = np.t.test(data['K'], axis=0, alternative='two-sided')[0]
+
+print(f'Mean K content: {mean_k:.4f}')
+print(f'Hypothetical mean K content: 0.02')
+print(f'T-statistic: {t_statistic:.4f}')
+print(f'P-value: {p_value:.4f}')
+
+if p_value < 0.05:
+    print('Reject the null hypothesis.')
+else:
+    print('Fail to reject the null hypothesis.')

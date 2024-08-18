@@ -1,0 +1,12 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+gdf_europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+gdf_data = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+fig, ax = plt.subplots(figsize=(10,10))
+ax = gdf_europe.plot(ax=ax, edgecolor='none', marker='.', markersize=5)
+
+gdf_data.plot(column='pH_CaCl2', ax=ax, cmap='viridis', marker='.', markersize=5)
+
+plt.savefig('heatmap.png')

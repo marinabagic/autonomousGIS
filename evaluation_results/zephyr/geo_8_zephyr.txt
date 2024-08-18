@@ -1,0 +1,32 @@
+
+import pandas as pd
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load the GeoDataFrame
+df = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+# Load the Europe shapefile
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+
+# Filter the points based on pH_H2O value
+df_filtered = df[(df['pH_H2O'] > 5) | (df['pH_H2O'] < 5)]
+
+# Create a dictionary with colors based on pH_H2O value
+colors = {'pH_H2O > 5': 'b', 'pH_H2O < 5': 'r'}
+
+# Create a function to change the color of the points based on pH_H2O value
+def change_color(feature, color):
+    feature.geometry = [Point(xy) for xy in list(feature.geometry.coords.values)]
+    feature.crs = {'init': 'epsg:4326'}
+    feature.set_crs('epsg:4326', inplace=True)
+    feature.set_geometry(geometry=GeoSeries(feature.geometry))
+    feature.set_crs('epsg:4326', inplace=True)
+    feature.set_crs('epsg:4326', inplace=True)
+    feature.set_crs(None, inplace=True)
+    feature.set_crs(None, inplace=True)
+    feature.set_crs('epsg:4326', inplace=True)
+    feature.set_crs('epsg:4326', inplace=True)
+    feature.set_crs('epsg:4326', inplace=True)
+    feature.set_crs('epsg:4326', inplace=True)
+    feature.set_crs

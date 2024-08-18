@@ -1,0 +1,16 @@
+
+import pandas as pd
+
+# load the csv file
+df = pd.read_csv('/home/fkriskov/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+
+# group by LC0_Desc and calculate the average OC
+avg_oc_by_lc0_desc = df.groupby('LC0_Desc')['OC'].mean()
+
+# plot the results
+avg_oc_by_lc0_desc.plot(kind='bar')
+plt.title('Average OC for each land type')
+plt.xlabel('Land type')
+plt.ylabel('Average OC')
+plt.savefig('plot.png')
+plt.show()

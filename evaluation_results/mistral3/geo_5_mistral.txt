@@ -1,0 +1,18 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+europe = gpd.read_file('/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp')
+data = gpd.read_file('/home/fkriskov/diplomski/datasets/geo_dataframe.shp')
+
+data = data.reset_index(drop=True)  # Reset the index of the data DataFrame
+
+median_K = data['K'].median()
+markers = data.loc[data['K'] > median_K, 'index']  # Use 'index' instead of 'POINTID'
+
+if len(markers) > 0:
+    data.loc[data.index.isin(markers), 'geometry'].plot(figure_size=(10,10), marker='.', color='red', alpha=0.5)
+else:
+    print("No points found with K greater than the median.")
+
+europe.plot(ax=plt.gca(), edgecolor='black')
+plt.savefig('map.png')

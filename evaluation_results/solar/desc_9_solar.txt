@@ -1,0 +1,22 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/IRIS flower dataset.csv')
+top_10 = df.sort_values('petal_length', ascending=False).head(10)
+print(top_10)
+
+
+------------------REZULTAT!!!------------------
+
+     sepal_length  sepal_width  petal_length  petal_width         species
+118           7.7          2.6           6.9          2.3  Iris-virginica
+122           7.7          2.8           6.7          2.0  Iris-virginica
+117           7.7          3.8           6.7          2.2  Iris-virginica
+105           7.6          3.0           6.6          2.1  Iris-virginica
+131           7.9          3.8           6.4          2.0  Iris-virginica
+107           7.3          2.9           6.3          1.8  Iris-virginica
+130           7.4          2.8           6.1          1.9  Iris-virginica
+109           7.2          3.6           6.1          2.5  Iris-virginica
+135           7.7          3.0           6.1          2.3  Iris-virginica
+100           6.3          3.3           6.0          2.5  Iris-virginica

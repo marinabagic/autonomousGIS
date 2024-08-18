@@ -1,0 +1,11 @@
+
+import pandas as pd
+import numpy as np
+
+data = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+mean = data['OC'].mean()
+std = data['OC'].std()
+n = len(data)
+
+interval = mean + np.array([-1, 1]) * 1.96 * std / np.sqrt(n)
+print(f'95% confidence interval for the mean OC content: {interval}')

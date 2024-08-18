@@ -1,0 +1,13 @@
+------------------GREAT SUCCESS!!!------------------
+
+
+import pandas as pd
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+result = df[df['NUTS_0'] == 'SI']['N'].max()
+exec(f'print({result})')
+
+
+------------------REZULTAT!!!------------------
+
+22.7

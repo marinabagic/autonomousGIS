@@ -1,0 +1,10 @@
+
+import pandas as pd
+import scipy.stats as stats
+
+df = pd.read_csv('/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv')
+k_mean = df['K'].mean()
+k_std = df['K'].std()
+h0 = 0.02
+t_stat, p_val = stats.ttest_1samp(df['K'], h0)
+print(t_stat, p_val)
