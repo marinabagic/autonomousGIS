@@ -34,7 +34,7 @@ model_name, kode = "bigcode/starcoder2-15b-instruct-v0.1", "starcoder"
 models[kode] = model_name
 
 
-# pipe = pipeline("text-generation", model=model_name, torch_dtype=torch.bfloat16, device_map="auto", token="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")
+# pipe = pipeline("text-generation", model=model_name, torch_dtype=torch.bfloat16, device_map="auto", token="hf_XXXXXXX")
 # file_path = "/home/fkriskov/diplomski/datasets/IRIS flower dataset.csv"
 file_path = "/home/fkriskov/diplomski/datasets/lucas-soil-2018-v2/lucas-soil-2018 copy.csv"
 europe = gpd.read_file("/home/fkriskov/diplomski/datasets/Europe_coastline_shapefile/Europe_coastline.shp")
